@@ -15,7 +15,7 @@
 image: docker:latest
 
 variables:
-  DOCKER_HOST: ${HARBOR_REPO}
+  DOCKER_HOST: tcp://${HARBOR_REPO}:2376
 
 stages:          # List of stages for jobs, and their order of execution
   - build-redis
@@ -26,7 +26,7 @@ build-redis:       # This job runs in the build stage, which runs first.
   script:
     - cd redis
     - docker build . -t rplace-${TOOL_REDIS}
-    - docker tag rplace-redis  ${HARBOR_REPO}/dassied/rplace-${TOOL_REDIS}:${TAG}
+    - docker tag rplace-${TOOL_REDIS} ${HARBOR_REPO}/dassied/rplace-${TOOL_REDIS}:${TAG}
 
 deploy-redis:      # This job runs in the deploy stage.
   stage: deploy-redis  # It only runs when *both* jobs in the test stage complete successfully.
