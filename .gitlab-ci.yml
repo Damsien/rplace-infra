@@ -26,7 +26,6 @@ build-redis:       # This job runs in the build stage, which runs first.
   stage: build-redis
   script:
     - cd redis
-    - docker network ls
     - docker build . -t ${HARBOR_PROJECT}-${TOOL_REDIS}
     - docker tag rplace-${TOOL_REDIS} ${HARBOR_URL}/dassied/${HARBOR_PROJECT}-${TOOL_REDIS}:${TAG}
 
