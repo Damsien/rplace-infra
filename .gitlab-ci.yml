@@ -15,7 +15,7 @@
 image: docker:latest
 
 variables:
-  DOCKER_HOST: tcp://harbor.k8s.inpt.fr/v2
+  DOCKER_HOST: tcp://harbor.k8s.inpt.fr
 
 stages:          # List of stages for jobs, and their order of execution
   - build-redis
