@@ -20,7 +20,6 @@ services:
 
 variables:
   DOCKER_DRIVER: overlay2
-  DOCKER_HOST: tcp://docker:2375
 
 stages:          # List of stages for jobs, and their order of execution
   - build-redis
