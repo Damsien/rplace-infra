@@ -17,7 +17,6 @@ image: docker:20-dind
 services:
   - name: docker:20-dind
     command: ["--tls=false"]
-    alias: https://harbor.k8s.inpt.fr
 
 variables:
   DOCKER_DRIVER: overlay2
