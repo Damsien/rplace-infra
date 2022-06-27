@@ -23,9 +23,6 @@ variables:
 services:
   - docker:20.10.16-dind
 
-before_script:
-  - docker info
-
 stages:          # List of stages for jobs, and their order of execution
   - build-redis
   - deploy-redis
