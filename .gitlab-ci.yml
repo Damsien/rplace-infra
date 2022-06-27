@@ -14,14 +14,6 @@
 # For more information, see: https://docs.gitlab.com/ee/ci/yaml/index.html#stages
 image: docker:20-dind
 
-services:
-  - name: docker:20-dind
-    command: ["--tls=false"]
-
-variables:
-  DOCKER_DRIVER: overlay2
-  DOCKER_HOST: harbor.k8s.inpt.fr
-
 stages:          # List of stages for jobs, and their order of execution
   - build-redis
   - deploy-redis
@@ -30,12 +22,12 @@ build-redis:       # This job runs in the build stage, which runs first.
   stage: build-redis
   script:
     - cd redis
-    - docker build . -t rplace-${TOOL_REDIS}
-    - docker tag rplace-${TOOL_REDIS} ${HARBOR_REPO}/dassied/rplace-${TOOL_REDIS}:${TAG}
+    - docker build . -t ${HARBOR_PROJECT}-${TOOL_REDIS}
+    - docker tag rplace-${TOOL_REDIS} ${HARBOR_URL}/dassied/${HARBOR_PROJECT}-${TOOL_REDIS}:${TAG}
 
 deploy-redis:      # This job runs in the deploy stage.
   stage: deploy-redis  # It only runs when *both* jobs in the test stage complete successfully.
   script:
-    - docker login ${HARBOR_REPO} -u ${USER} -p ${PASSWORD}
-    - docker push ${HARBOR_REPO}/dassied/rplace-${TOOL_REDIS}:${TAG}
-    - docker rmi rplace-${TOOL_REDIS}
+    - docker login ${HARBOR_URL} -u ${HARBOR_USERNAME} -p ${HARBOR_PASSWORD}
+    - docker push ${HARBOR_REPO}/dassied/${HARBOR_PROJECT}-${TOOL_REDIS}:${TAG}
+    - docker rmi ${HARBOR_PROJECT}-${TOOL_REDIS}
