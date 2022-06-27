@@ -17,11 +17,11 @@ image: docker:20-dind
 services:
   - name: docker:20-dind
     command: ["--tls=false"]
-    alias: https://harbor.k8s.inpt.fr/v2
+    alias: https://harbor.k8s.inpt.fr
 
 variables:
   DOCKER_DRIVER: overlay2
-  DOCKER_HOST: tcp://harbor.k8s.inpt.fr/v2:2375
+  DOCKER_HOST: tcp://harbor.k8s.inpt.fr:2375
 
 stages:          # List of stages for jobs, and their order of execution
   - build-redis
