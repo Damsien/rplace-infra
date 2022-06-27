@@ -16,8 +16,9 @@ image: docker:latest
 
 services:
   - docker:dind
-#variables:
-#  DOCKER_HOST: tcp://harbor.k8s.inpt.fr
+
+variables:
+  DOCKER_HOST: tcp://harbor.k8s.inpt.fr
 
 stages:          # List of stages for jobs, and their order of execution
   - build-redis
