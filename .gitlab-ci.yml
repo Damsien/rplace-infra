@@ -24,8 +24,6 @@ stages:          # List of stages for jobs, and their order of execution
 build-redis:       # This job runs in the build stage, which runs first.
   stage: build-redis
   image: docker
-  volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
   script:
     - cd redis
     - docker network ls
