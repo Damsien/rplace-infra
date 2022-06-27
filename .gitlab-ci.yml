@@ -16,7 +16,7 @@ image: docker:20-dind
 
 variables:
   DOCKER_DRIVER: overlay2
-  DOCKER_HOST: https://harbor.k8s.inpt.fr
+  DOCKER_HOST: tcp://harbor.k8s.inpt.fr
 
 stages:          # List of stages for jobs, and their order of execution
   - build-redis
