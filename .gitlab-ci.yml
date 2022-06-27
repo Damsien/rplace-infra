@@ -15,7 +15,6 @@
 image: docker:20-dind
 
 variables:
-  DOCKER_DRIVER: overlay2
   DOCKER_HOST: harbor.k8s.inpt.fr:80/v2
 
 stages:          # List of stages for jobs, and their order of execution
