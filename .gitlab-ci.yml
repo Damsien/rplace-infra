@@ -16,7 +16,7 @@ image: docker:20-dind
 
 variables:
   DOCKER_DRIVER: overlay2
-  DOCKER_HOST: tcp://harbor.k8s.inpt.fr
+  DOCKER_HOST: tcp://harbor.k8s.inpt.fr:5000
 
 stages:          # List of stages for jobs, and their order of execution
   - build-redis
@@ -26,6 +26,7 @@ build-redis:       # This job runs in the build stage, which runs first.
   stage: build-redis
   script:
     - cd redis
+    - docker network ls
     - docker build . -t ${HARBOR_PROJECT}-${TOOL_REDIS}
     - docker tag rplace-${TOOL_REDIS} ${HARBOR_URL}/dassied/${HARBOR_PROJECT}-${TOOL_REDIS}:${TAG}
 
