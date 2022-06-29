@@ -21,8 +21,8 @@ variables:
   DOCKER_TLS_VERIFY: 1
   DOCKER_CERT_PATH: "$DOCKER_TLS_CERTDIR/client"
 
-services:
-  - docker:20.10.16-dind
+#services:
+#  - docker:20.10.16-dind
 
 stages:          # List of stages for jobs, and their order of execution
   - build-redis
