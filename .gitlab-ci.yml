@@ -17,7 +17,7 @@ image: docker:20.10.16
 variables:
   DOCKER_HOST: tcp://harbor.k8s.inpt.fr:2375
   DOCKER_DRIVER: overlay2
-  DOCKER_TLS_CERTDIR: ""
+  DOCKER_TLS_CERTDIR: "/certs"
   DOCKER_TLS_VERIFY: 1
   DOCKER_CERT_PATH: "$DOCKER_TLS_CERTDIR/client"
 
