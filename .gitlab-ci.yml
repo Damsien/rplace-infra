@@ -28,7 +28,7 @@ build-redis:       # This job runs in the build stage, which runs first.
   script:
     - cd redis
     - buildctl-daemonless.sh build \
-      --frontend=dockerfile.v0
+      --frontend dockerfile.v0
       --local context=. \
       --local dockerfile=. \
       --import-cache type=registry,ref=${HARBOR_PROJECT}/rplace/${HARBOR_PROJECT}-${TOOL_REDIS}:${TAG} \
