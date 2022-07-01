@@ -27,8 +27,13 @@ build-redis:       # This job runs in the build stage, which runs first.
   stage: build-redis
   script:
     - cd redis
-    - buildctl-daemonless.sh build . -t ${HARBOR_PROJECT}-${TOOL_REDIS}
-    - buildctl-daemonless.sh tag rplace-${TOOL_REDIS} ${HARBOR_URL}/dassied/${HARBOR_PROJECT}-${TOOL_REDIS}:${TAG}
+    - buildctl-daemonless.sh build \
+      --frontend=dockerfile.v0
+      --local context=. \
+      --local dockerfile=. \
+      --import-cache type=registry,ref=${HARBOR_PROJECT}/rplace/${HARBOR_PROJECT}-${TOOL_REDIS}:${TAG} \
+      --export-cache type=inline \
+      --output type=image,name=${HARBOR_PROJECT}/rplace/${HARBOR_PROJECT}-${TOOL_REDIS}:${TAG},push=true
 
 deploy-redis:      # This job runs in the deploy stage.
   stage: deploy-redis  # It only runs when *both* jobs in the test stage complete successfully.
