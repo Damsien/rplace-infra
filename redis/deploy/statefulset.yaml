@@ -57,7 +57,7 @@ spec:
       containers:
       - name: redis
         image: redis/redis-stack-server:latest
-        command: ["redis-server"]
+        command: ["redis-stack-server"]
         args: ["/etc/redis/redis.conf"]
         ports:
         - containerPort: 6379
@@ -81,4 +81,4 @@ spec:
       storageClassName: "nfs"
       resources:
         requests:
-          storage: 500Mi
+          storage: 20Gi
