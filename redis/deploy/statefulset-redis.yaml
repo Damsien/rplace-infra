@@ -26,7 +26,7 @@ spec:
             topologyKey: "kubernetes.io/hostname"
       initContainers:
       - name: config
-        image: redis:latest
+        image: redis:6.2.3-alpine
         command: [ "sh", "-c" ]
         args:
           - |
@@ -41,7 +41,7 @@ spec:
                 echo "this is redis-0, not updating config..."
               else
                 echo "updating redis.conf..."
-                echo "\nslaveof $MASTER_FDQN 6379" >> /etc/redis/redis.conf
+                echo "\nreplicaof $MASTER_FDQN 6379" >> /etc/redis/redis.conf
               fi
             else
               echo "sentinel found, finding master"
