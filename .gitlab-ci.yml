@@ -16,6 +16,9 @@ image:
   name: moby/buildkit:rootless
   entrypoint: [ "sh", "-c" ]
 
+variables:
+  DOCKER_BUILDKIT=1
+
 #services:
 #  - docker:20.10.16-dind
 
