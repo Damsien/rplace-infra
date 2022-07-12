@@ -4,7 +4,7 @@ metadata:
   name: mariadb-sts
   namespace: rplace
 spec:
-  serviceName: "mariadb-service"
+  serviceName: "mariadb"
   replicas: 2
   selector:
     matchLabels:
@@ -34,6 +34,8 @@ spec:
           ls /mnt/config-map
           [[ `hostname` =~ -([0-9]+)$ ]] || exit 1
           ordinal=${BASH_REMATCH[1]}
+          echo "$(hostname)"
+          echo "$(ordinal)"
           # Copy appropriate conf.d files from config-map to emptyDir.
           if [[ $ordinal -eq 0 ]]; then
             cp /mnt/config-map/primary.cnf /etc/mysql/conf.d/server-id.cnf
@@ -69,7 +71,7 @@ spec:
         image: mariadb
         ports:
         - containerPort: 3306
-          name: mariadb-port
+          name: mariadb
         env:
         # Using Secrets
         - name: MARIADB_ROOT_PASSWORD

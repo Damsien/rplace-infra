@@ -6,13 +6,13 @@ metadata:
 data:
   mariadb.cnf: |
     [mariadb]
-    plugin_load_add=simple_password_check
-    plugin_load_add=password_reuse_check       # this is alpha maturity
-    plugin_maturity=alpha
-    simple_password_check_minimal_length=5     # default 8
-    simple_password_check_digits=0             # default 1
-    simple_password_check_letters_same_case=0  # default 1
-    simple_password_check_other_characters=0   # default 1
+    #plugin_load_add=simple_password_check
+    #plugin_load_add=password_reuse_check       # this is alpha maturity
+    #plugin_maturity=alpha
+    #simple_password_check_minimal_length=5     # default 8
+    #simple_password_check_digits=0             # default 1
+    #simple_password_check_letters_same_case=0  # default 1
+    #simple_password_check_other_characters=0   # default 1
     #strict_password_validation=1              # if set to 1 hash passwords are used
   init.sh: |
     set -ex
@@ -25,24 +25,24 @@ data:
     echo server-id=$((100 + $ordinal)) >> etc/mysql/server-id.cnf
   primary.cnf: |
     [mariadb]
-    log-bin = /var/log/mysql/mysql-replication.log                         # enable binary loging
-    log-error=/var/log/mysql/mysql.err
-    # server_id=3000                  # used to uniquely identify the server
-    log-basename=my-mariadb         # used to be independent of to hostname changes (otherwise is in datadir/mysql)
+    log-bin                         # enable binary loging
+    server_id=3000                  # used to uniquely identify the server
+    #log-basename=my-mariadb         # used to be independent of to hostname changes (otherwise is in datadir/mysql)
     #binlog-format=MIXED            #default
   replica.cnf: |
     [mariadb]
-    # server_id=3001                  # used to uniquely identify the server
-    log-basename=my-mariadb         # used to be independent of to hostname changes (otherwise is in datadir/mysql)
+    read-only=1
+    server_id=3001                  # used to uniquely identify the server
+    #log-basename=my-mariadb         # used to be independent of to hostname changes (otherwise is in datadir/mysql)
     #binlog-format=MIXED            #default
   primary.sql: |
     CREATE USER 'repluser'@'%' IDENTIFIED BY 'replsecret';
     GRANT REPLICATION SLAVE ON *.* TO 'repluser'@'%';
-    CREATE DATABASE primary_db;
+    CREATE DATABASE rplace;
   # This should be done on the first clone. Not needed at all
   secondary.sql: |
-    CHANGE MASTER 'master-db' TO
-    MASTER_HOST='mariadb-sts-0',
+    CHANGE MASTER TO
+    MASTER_HOST='mariadb-sts-0.mariadb',
     MASTER_USER='repluser',
     MASTER_PASSWORD='replsecret',
     MASTER_PORT=3306,
