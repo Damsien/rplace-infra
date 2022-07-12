@@ -27,10 +27,15 @@ spec:
       initContainers:
       - name: config
         image: redis:6.2.3-alpine
+        env:
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: redis-secret
+              key: redis-password
         command: [ "sh", "-c" ]
         args:
           - |
-            REDIS_PASSWORD=consider-7
             nodes=redis-0.redis,redis-1.redis,redis-2.redis
 
             for i in ${nodes//,/ }
@@ -55,6 +60,9 @@ spec:
             sentinel parallel-syncs mymaster 1
             sentinel auth-pass mymaster $REDIS_PASSWORD
             " > /etc/redis/sentinel.conf
+
+            # Set password in the config file
+            sed -i "s/VERY_SECRET_PASSWORD/$REDIS_PASSWORD/" /etc/redis/sentinel.conf
             cat /etc/redis/sentinel.conf
         volumeMounts:
         - name: redis-config

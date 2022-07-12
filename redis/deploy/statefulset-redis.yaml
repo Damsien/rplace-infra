@@ -27,10 +27,19 @@ spec:
       initContainers:
       - name: config
         image: redis:6.2.3-alpine
+        env:
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: redis-secret
+              key: redis-password
         command: [ "sh", "-c" ]
         args:
           - |
             cp /tmp/redis/redis.conf /etc/redis/redis.conf
+
+            # Set password in the config file
+            sed -i "s/VERY_SECRET_PASSWORD/$REDIS_PASSWORD/" /etc/redis/redis.conf
             
             echo "finding master..."
             MASTER_FDQN=`hostname  -f | sed -e 's/redis-[0-9]\./redis-0./'`
@@ -81,4 +90,4 @@ spec:
       storageClassName: "nfs"
       resources:
         requests:
-          storage: 20Gi
+          storage: 8Gi

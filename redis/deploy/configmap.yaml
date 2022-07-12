@@ -248,7 +248,7 @@ data:
     protected (using the \"requirepass\" configuration\n# directive below) it is possible
     to tell the replica to authenticate before\n# starting the replication synchronization
     process, otherwise the master will\n# refuse the replica request.\n#\nmasterauth
-    consider-7\n#\n# However this is not enough if you are using Redis ACLs (for Redis
+    VERY_SECRET_PASSWORD\n#\n# However this is not enough if you are using Redis ACLs (for Redis
     version\n# 6 or greater), and the default user is not capable of running the PSYNC\n#
     command and/or other commands needed for replication. In this case it's\n# better
     to configure a special user to use with replication, and specify the\n# masteruser
@@ -501,7 +501,7 @@ data:
     as usually, or more explicitly with AUTH default <password>\n# if they follow
     the new protocol: both will work.\n#\n# The requirepass is not compatable with
     aclfile option and the ACL LOAD\n# command, these will cause requirepass to be
-    ignored.\n#\nrequirepass consider-7\n\n# New users are initialized with restrictive
+    ignored.\n#\nrequirepass VERY_SECRET_PASSWORD\n\n# New users are initialized with restrictive
     permissions by default, via the\n# equivalent of this ACL rule 'off resetkeys
     -@all'. Starting with Redis 6.2, it\n# is possible to manage access to Pub/Sub
     channels with ACL rules as well. The\n# default Pub/Sub channels permission if
