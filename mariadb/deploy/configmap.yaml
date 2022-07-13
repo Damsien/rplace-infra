@@ -26,25 +26,36 @@ data:
   master.cnf: |
     [mariadb]
     log-bin                         # enable binary loging
-    server_id=3000                  # used to uniquely identify the server
+    #server_id=3000                  # used to uniquely identify the server
     #log-basename=my-mariadb         # used to be independent of to hostname changes (otherwise is in datadir/mysql)
     #binlog-format=MIXED            #default
   replica.cnf: |
     [mariadb]
-    read-only=1
-    server_id=3001                  # used to uniquely identify the server
+    #read-only=1
+    log-bin
+    #server_id=3001                  # used to uniquely identify the server
     #log-basename=my-mariadb         # used to be independent of to hostname changes (otherwise is in datadir/mysql)
     #binlog-format=MIXED            #default
   master.sh: |
-    mysql -u root --password=${MARIADB_ROOT_PASSWORD} -e "CREATE USER '${MARIADB_REPL_USER}'@'%' IDENTIFIED BY '${MARIADB_REPL_PASSWORD}';";
-    mysql -u root --password=${MARIADB_ROOT_PASSWORD} -e "GRANT REPLICATION SLAVE ON *.* TO '${MARIADB_REPL_USER}'@'%';";
+    mysql -u root --password=${MARIADB_ROOT_PASSWORD} -e "CREATE USER '${MARIADB_REPL_USER}0'@'%' IDENTIFIED BY '${MARIADB_REPL_PASSWORD}';";
+    mysql -u root --password=${MARIADB_ROOT_PASSWORD} -e "GRANT REPLICATION SLAVE ON *.* TO '${MARIADB_REPL_USER}0'@'%';";
     mysql -u root --password=${MARIADB_ROOT_PASSWORD} -e "CREATE DATABASE rplace;";
-  replica.sh: |
     mysql -u root --password=${MARIADB_ROOT_PASSWORD} -e "CHANGE MASTER TO
-    MASTER_HOST='mariadb-0.mariadb',
-    MASTER_USER='${MARIADB_REPL_USER}',
+    MASTER_HOST='mariadb-1.mariadb',
+    MASTER_USER='${MARIADB_REPL_USER}1',
     MASTER_PASSWORD='${MARIADB_REPL_PASSWORD}',
     MASTER_PORT=3306,
     MASTER_CONNECT_RETRY=10;";
     mysql -u root --password=${MARIADB_ROOT_PASSWORD} -e "START SLAVE;";
-    mysql -u root --password=${MARIADB_ROOT_PASSWORD} -e "SHOW SLAVE STATUS;";
+    mysql -u root --password=${MARIADB_ROOT_PASSWORD} -e "SHOW SLAVE STATUS \G;";
+  replica.sh: |
+    mysql -u root --password=${MARIADB_ROOT_PASSWORD} -e "CHANGE MASTER TO
+    MASTER_HOST='mariadb-0.mariadb',
+    MASTER_USER='${MARIADB_REPL_USER}0',
+    MASTER_PASSWORD='${MARIADB_REPL_PASSWORD}',
+    MASTER_PORT=3306,
+    MASTER_CONNECT_RETRY=10;";
+    mysql -u root --password=${MARIADB_ROOT_PASSWORD} -e "START SLAVE;";
+    mysql -u root --password=${MARIADB_ROOT_PASSWORD} -e "SHOW SLAVE STATUS \G;";
+    mysql -u root --password=${MARIADB_ROOT_PASSWORD} -e "CREATE USER '${MARIADB_REPL_USER}1'@'%' IDENTIFIED BY '${MARIADB_REPL_PASSWORD}';";
+    mysql -u root --password=${MARIADB_ROOT_PASSWORD} -e "GRANT REPLICATION SLAVE ON *.* TO '${MARIADB_REPL_USER}1'@'%';";

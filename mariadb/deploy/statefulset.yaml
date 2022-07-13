@@ -5,7 +5,7 @@ metadata:
   namespace: rplace
 spec:
   serviceName: "mariadb"
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: mariadb
@@ -39,10 +39,12 @@ spec:
             cp /mnt/config-map/master.cnf /etc/mysql/conf.d/server-id.cnf
             # Create the users needed for replication on master
             cp /mnt/config-map/master.sh /docker-entrypoint-initdb.d/init.sh
+            echo server_id=300$ordinal >> /docker-entrypoint-initdb.d/init.sh
           else
             cp /mnt/config-map/replica.cnf /etc/mysql/conf.d/server-id.cnf
             # We cannot know the IP of the host, it will be created
             cp /mnt/config-map/replica.sh /docker-entrypoint-initdb.d/init.sh
+            echo server_id=300$ordinal >> /docker-entrypoint-initdb.d/init.sh
           fi
           # Add an offset to avoid reserved server-id=0 value.
           echo server-id=$((3000 + $ordinal)) >> /etc/mysql/conf.d/server-id.cnf
