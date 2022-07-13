@@ -34,18 +34,9 @@ spec:
           ls /mnt/config-map
           [[ `hostname` =~ -([0-9]+)$ ]] || exit 1
           ordinal=${BASH_REMATCH[1]}
-          # Copy appropriate conf.d files from config-map to emptyDir.
-          if [[ $ordinal -eq 0 ]]; then
-            cp /mnt/config-map/master.cnf /etc/mysql/conf.d/server-id.cnf
-            # Create the users needed for replication on master
-            cp /mnt/config-map/master.sh /docker-entrypoint-initdb.d/init.sh
-            echo server_id=300$ordinal >> /docker-entrypoint-initdb.d/init.sh
-          else
-            cp /mnt/config-map/replica.cnf /etc/mysql/conf.d/server-id.cnf
-            # We cannot know the IP of the host, it will be created
-            cp /mnt/config-map/replica.sh /docker-entrypoint-initdb.d/init.sh
-            echo server_id=300$ordinal >> /docker-entrypoint-initdb.d/init.sh
-          fi
+          cp /mnt/config-map/mariadb.cnf /etc/mysql/conf.d/server-id.cnf
+          cp /mnt/config-map/mariadb.sh /docker-entrypoint-initdb.d/init.sh
+          echo server_id=300$ordinal >> /docker-entrypoint-initdb.d/init.sh
           # Add an offset to avoid reserved server-id=0 value.
           echo server-id=$((3000 + $ordinal)) >> /etc/mysql/conf.d/server-id.cnf
           cp /mnt/config-map/mariadb.cnf /etc/mysql/conf.d
@@ -84,6 +75,8 @@ spec:
             secretKeyRef:
               name: mariadb-secret
               key: mariadb-repl-password
+        - name: MAX_REPLICAS
+          value: "2"
         - name: MYSQL_INITDB_SKIP_TZINFO
           value: "yes"
         # Mount volumes from persistent volume claim

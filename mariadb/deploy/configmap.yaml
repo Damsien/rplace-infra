@@ -23,39 +23,25 @@ data:
     echo [mariadb] > /etc/mysql/conf.d/server-id.cnf
     # Add an offset to avoid reserved server-id=0 value.
     echo server-id=$((100 + $ordinal)) >> etc/mysql/server-id.cnf
-  master.cnf: |
+  mariadb.cnf: |
     [mariadb]
     log-bin                         # enable binary loging
-    #server_id=3000                  # used to uniquely identify the server
-    #log-basename=my-mariadb         # used to be independent of to hostname changes (otherwise is in datadir/mysql)
-    #binlog-format=MIXED            #default
-  replica.cnf: |
-    [mariadb]
-    #read-only=1
-    log-bin
-    #server_id=3001                  # used to uniquely identify the server
-    #log-basename=my-mariadb         # used to be independent of to hostname changes (otherwise is in datadir/mysql)
-    #binlog-format=MIXED            #default
-  master.sh: |
-    mysql -u root --password=${MARIADB_ROOT_PASSWORD} -e "CREATE USER '${MARIADB_REPL_USER}0'@'%' IDENTIFIED BY '${MARIADB_REPL_PASSWORD}';";
-    mysql -u root --password=${MARIADB_ROOT_PASSWORD} -e "GRANT REPLICATION SLAVE ON *.* TO '${MARIADB_REPL_USER}0'@'%';";
-    mysql -u root --password=${MARIADB_ROOT_PASSWORD} -e "CREATE DATABASE rplace;";
-    mysql -u root --password=${MARIADB_ROOT_PASSWORD} -e "CHANGE MASTER TO
-    MASTER_HOST='mariadb-1.mariadb',
-    MASTER_USER='${MARIADB_REPL_USER}1',
-    MASTER_PASSWORD='${MARIADB_REPL_PASSWORD}',
-    MASTER_PORT=3306,
-    MASTER_CONNECT_RETRY=10;";
-    mysql -u root --password=${MARIADB_ROOT_PASSWORD} -e "START SLAVE;";
-    mysql -u root --password=${MARIADB_ROOT_PASSWORD} -e "SHOW SLAVE STATUS \G;";
-  replica.sh: |
-    mysql -u root --password=${MARIADB_ROOT_PASSWORD} -e "CHANGE MASTER TO
-    MASTER_HOST='mariadb-0.mariadb',
-    MASTER_USER='${MARIADB_REPL_USER}0',
-    MASTER_PASSWORD='${MARIADB_REPL_PASSWORD}',
-    MASTER_PORT=3306,
-    MASTER_CONNECT_RETRY=10;";
-    mysql -u root --password=${MARIADB_ROOT_PASSWORD} -e "START SLAVE;";
-    mysql -u root --password=${MARIADB_ROOT_PASSWORD} -e "SHOW SLAVE STATUS \G;";
-    mysql -u root --password=${MARIADB_ROOT_PASSWORD} -e "CREATE USER '${MARIADB_REPL_USER}1'@'%' IDENTIFIED BY '${MARIADB_REPL_PASSWORD}';";
-    mysql -u root --password=${MARIADB_ROOT_PASSWORD} -e "GRANT REPLICATION SLAVE ON *.* TO '${MARIADB_REPL_USER}1'@'%';";
+  mariadb.sh: |
+    [[ `hostname` =~ -([0-9]+)$ ]] || exit 1
+    ordinal=${BASH_REMATCH[1]}
+    if [[ $ordinal -eq 0 ]]; then
+      mysql -u root --password=${MARIADB_ROOT_PASSWORD} -e "CREATE USER '${MARIADB_REPL_USER}${ordinal}'@'%' IDENTIFIED BY '${MARIADB_REPL_PASSWORD}';";
+      mysql -u root --password=${MARIADB_ROOT_PASSWORD} -e "GRANT REPLICATION SLAVE ON *.* TO '${MARIADB_REPL_USER}${ordinal}'@'%';";
+      mysql -u root --password=${MARIADB_ROOT_PASSWORD} -e "CREATE DATABASE rplace;";
+      new_ordinal=`expr ${MAX_REPLICAS} - 1`;
+    else
+      new_ordinal=`expr ${ordinal} - 1`;
+      mysql -u root --password=${MARIADB_ROOT_PASSWORD} -e "CHANGE MASTER TO
+      MASTER_HOST='mariadb-${new_ordinal}.mariadb',
+      MASTER_USER='${MARIADB_REPL_USER}${new_ordinal}',
+      MASTER_PASSWORD='${MARIADB_REPL_PASSWORD}',
+      MASTER_PORT=3306,
+      MASTER_CONNECT_RETRY=10;";
+      mysql -u root --password=${MARIADB_ROOT_PASSWORD} -e "START SLAVE;";
+      mysql -u root --password=${MARIADB_ROOT_PASSWORD} -e "SHOW SLAVE STATUS \G;";
+    fi
