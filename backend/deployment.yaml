@@ -17,5 +17,6 @@ spec:
         image: harbor.k8s.inpt.fr/rplace/backend:v1
         imagePullPolicy: Always
         ports:
-        - name: http
-          containerPort: 3000
+        - containerPort: 3000
+      imagePullSecrets:
+      - name: rplace-pull-secret
