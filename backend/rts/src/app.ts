@@ -77,10 +77,12 @@ async function getPixels(): Promise<Array<PixelHistoryEntity[]>> {
         'KEYS', 'PixelHistory:*'
     ]);
 
+    let per: string;
     console.log(`Number of pixels to be retrieved : `+clc.magenta(`${streams.length}`));
     for(let i=0; i<streams.length; i++) {
         pixelHistory.push(await getSinglePixelStream(streams[i]));
-        if(i % 500 == 0) process.stdout.write(`${i} `);
+        per = ((i/streams.length)*100).toFixed();
+        process.stdout.write(`${i}/${streams.length} pixels ${per}%\r`);
     }
     process.stdout.write(`\n\n`);
 
@@ -114,6 +116,7 @@ async function pushOnMySQL() {
             await new Promise(r => setTimeout(r, 1000));
 
             try {
+                let per: string;
                 console.log('Save in the SQL database');
         
                 for(let i=0; i<pixels.length; i++) {
@@ -122,7 +125,8 @@ async function pushOnMySQL() {
             
                         await qRunner.manager.save(pixel);
 
-                        if(i % 500 == 0 && j % 500 == 0) process.stdout.write(`i:${i}-j:${j} `);
+                        per = ((i/pixels.length)*100).toFixed();
+                        process.stdout.write(`i:${i}-j:${j} ${per}%\r`);
                     }
                 }
                 process.stdout.write(`\n\n`)
@@ -149,6 +153,8 @@ async function pushOnMySQL() {
                 await qRunner.release();
             }
 
+            exit(0);
+
         } else {
             console.log(clc.red('Abort'));
         }
@@ -160,15 +166,33 @@ async function pushOnMySQL() {
     }
     
 
-    exit(0);
+    exit(1);
 }
 
 
-process.on('SIGINT', function() {
-    (gameRepo.search().where('name').eq('Game').return.first()).then(game => {
-        game.isOperationReady = true;
-        (gameRepo.save(game)).then(val => {
-            exit(1);
+
+function exitHandler(options, exitCode) {
+    if (options.cleanup) {
+        (gameRepo.search().where('name').eq('Game').return.first()).then(game => {
+            game.isOperationReady = true;
+            (gameRepo.save(game)).then(val => {
+                process.exit(1);
+            });
         });
-    });
-});
+    }
+    if (exitCode || exitCode === 0) process.stdout.write(`\n\n`); console.log(exitCode);
+    if (options.exit) process.exit();
+}
+
+//do something when app is closing
+process.on('exit', exitHandler.bind(null,{exit:true}));
+
+//catches ctrl+c event
+process.on('SIGINT', exitHandler.bind(null, {cleanup:true}));
+
+// catches "kill pid" (for example: nodemon restart)
+process.on('SIGUSR1', exitHandler.bind(null, {cleanup:true}));
+process.on('SIGUSR2', exitHandler.bind(null, {cleanup:true}));
+
+//catches uncaught exceptions
+process.on('uncaughtException', exitHandler.bind(null, {cleanup:true}));
