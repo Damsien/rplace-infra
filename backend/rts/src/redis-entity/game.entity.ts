@@ -20,6 +20,41 @@ export class Game extends Entity {
 
     isMapReady: boolean;
 
+    // ["STEP_ONE:200", "STEP_TWO:500", "STEP_THREE:800", "STEP_FOUR:1000"]
+    private steps: string[];
+
+    setSteps(steps: string[]) {
+        this.steps = steps;
+    }
+
+    getStepsMap() {
+        return this.steps;
+    }
+
+    getStepsName() {
+        let steps = [];
+        for (let step of this.steps) {
+            steps.push(step.split(':')[0]);
+        }
+        return steps;
+    }
+
+    getStepsPoints() {
+        let steps = [];
+        for (let step of this.steps) {
+            steps.push(step.split(':')[1]);
+        }
+        return steps;
+    }
+
+    getPointsFromSteps(name: string) {
+        for (let step of this.steps) {
+            if(step.split(':')[0] == name) {
+                return step.split(':')[1];
+            }
+        }
+    }
+
     private colors: string[];
 
     setColors(colors: string[]) {
@@ -69,6 +104,8 @@ export const game_schema = new Schema(Game, {
     width: {type: 'number'},
 
     timer: {type: 'number'},
+
+    steps: {type: 'string[]'},
 
     colors: {type: 'string[]'},
 

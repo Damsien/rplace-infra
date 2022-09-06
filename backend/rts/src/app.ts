@@ -62,6 +62,7 @@ async function getSinglePixelStream(pixelStream): Promise<Array<PixelHistoryEnti
         pixelHistory.date = new Date(pixelHistoryRedis[9]);
         pixelHistory.userId = pixelHistoryRedis[7];
         pixelHistory.color = pixelHistoryRedis[5];
+        pixelHistory.isSticked = pixelHistoryRedis[9] ? 1 : 0;
         history.push(pixelHistory);
     }
 
@@ -162,6 +163,7 @@ async function pushOnMySQL() {
 
     } catch (err) {
         console.log(clc.red('Game not initialized'));
+        console.log(err);
         console.log(clc.red('Abort'));
     }
     
