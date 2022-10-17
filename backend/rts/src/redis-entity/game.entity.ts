@@ -1,4 +1,6 @@
 import { Entity, Schema } from "redis-om";
+import { Color } from "./type/color.type";
+import { Step } from "./type/step.type";
 
 
 export class Game extends Entity {
@@ -20,71 +22,92 @@ export class Game extends Entity {
 
     isMapReady: boolean;
 
-    // ["STEP_ONE:200", "STEP_TWO:500", "STEP_THREE:800", "STEP_FOUR:1000"]
-    private steps: string[];
+    private steps: string;
 
-    setSteps(steps: string[]) {
-        this.steps = steps;
+    setSteps(steps: Step[]) {
+        // const jsonSteps = {};
+        // jsonSteps['steps'] = [];
+        // for (let step of steps) {
+        //     jsonSteps['steps'].push({
+        //         "name": step.name,
+        //         "description": step.description,
+        //         "pixels": step.pixels,
+        //         "img": step.img,
+        //     });
+        // }
+        // this.steps = JSON.stringify(jsonSteps['steps']);
+        this.steps = JSON.stringify(steps);
     }
 
-    getStepsMap() {
-        return this.steps;
+    getSteps(): Step[] {
+        return JSON.parse(this.steps);
     }
 
-    getStepsName() {
+    getStepsName(): String[] {
         let steps = [];
-        for (let step of this.steps) {
-            steps.push(step.split(':')[0]);
+        for (let step of this.getSteps()) {
+            steps.push(step.name);
         }
         return steps;
     }
 
-    getStepsPoints() {
-        let steps = [];
-        for (let step of this.steps) {
-            steps.push(step.split(':')[1]);
-        }
-        return steps;
+    getStepFromPoints(points: number): Step {
+        return this.getSteps().find((el) => el.pixels == points);
     }
 
-    getPointsFromSteps(name: string) {
-        for (let step of this.steps) {
-            if(step.split(':')[0] == name) {
-                return step.split(':')[1];
+    getStepsPoints(): number[] {
+        const steps = this.getSteps().sort(function(a: Step, b: Step) {
+            let keyA = a.pixels;
+            let keyB = b.pixels;
+            if (keyA < keyB) return -1;
+            if (keyA > keyB) return 1;
+            return 0;
+        });
+        const nbSteps = [];
+        for (let step of steps) {
+            nbSteps.push(step);
+        }
+        return nbSteps;
+    }
+
+    getPointsFromSteps(name: string): number {
+        for (let step of this.getSteps()) {
+            if(step.name == name) {
+                return step.pixels;
             }
         }
     }
 
-    private colors: string[];
+    private colors: string;
 
-    setColors(colors: string[]) {
-        this.colors = colors;
+    setColors(colors: Color[]) {
+        this.colors = JSON.stringify(colors);
     }
 
-    getColorsMap() {
-        return this.colors;
+    getColors(): Color[] {
+        return JSON.parse(this.colors);
     }
 
     getColorsName() {
         let colors = [];
-        for (let color of this.colors) {
-            colors.push(color.split(':')[0]);
+        for (let color of this.getColors()) {
+            colors.push(color.name);
         }
         return colors;
     }
 
     getColorsHex() {
         let colors = [];
-        for (let color of this.colors) {
-            colors.push(color.split(':')[1]);
+        for (let color of this.getColors()) {
+            colors.push(color.hex);
         }
         return colors;
     }
 
     getHexFromName(name: string) {
-        for (let color of this.colors) {
-            if(color.split(':')[0] == name) {
-                return color.split(':')[1];
+        for (let color of this.getColors()) {
+            if(color.name == name) {
+                return color.hex;
             }
         }
     }
@@ -105,9 +128,9 @@ export const game_schema = new Schema(Game, {
 
     timer: {type: 'number'},
 
-    steps: {type: 'string[]'},
+    steps: {type: 'text'},
 
-    colors: {type: 'string[]'},
+    colors: {type: 'text'},
 
     isOperationReady: {type: 'boolean'},
 
