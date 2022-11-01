@@ -9,7 +9,7 @@ import 'dotenv/config'
 import { exit } from "process";
 const clc = require("cli-color");
 
-const startDate = new Date();
+// const startDate = new Date();
 
 const client = new Client();
 client.open(process.env.REDIS_HOST);
@@ -82,8 +82,8 @@ async function getPixels(): Promise<Array<PixelHistoryEntity[]>> {
     console.log(`Number of pixels to be retrieved : `+clc.magenta(`${streams.length}`));
     for(let i=0; i<streams.length; i++) {
         pixelHistory.push(await getSinglePixelStream(streams[i]));
-        per = ((i/streams.length)*100).toFixed();
-        process.stdout.write(`${i}/${streams.length} pixels ${per}%\r`);
+        per = (((i+1)/streams.length)*100).toFixed();
+        process.stdout.write(`${i+1}/${streams.length} pixels ${per}%\r`);
     }
     process.stdout.write(`\n\n`);
 
@@ -126,8 +126,8 @@ async function pushOnMySQL() {
             
                         await qRunner.manager.save(pixel);
 
-                        per = ((i/pixels.length)*100).toFixed();
-                        process.stdout.write(`i:${i}-j:${j} ${per}%\r`);
+                        per = (((i+1)/pixels.length)*100).toFixed();
+                        process.stdout.write(`${i+1} ${per}%\r`);
                     }
                 }
                 process.stdout.write(`\n\n`)
@@ -141,8 +141,9 @@ async function pushOnMySQL() {
                 if (pixels.length > 0) game.isMapReady = true;
                 await gameRepo.save(game);
                 
-                const stopTimer = new Date((new Date()).getTime()-startDate.getTime());
-                console.log(clc.green('Operation done in ')+stopTimer.getSeconds()+clc.green(' seconds!'));
+                // const stopTimer = new Date((new Date()).getTime()-startDate.getTime());
+                // console.log(clc.green('Operation done in ')+stopTimer.getSeconds()+clc.green(' seconds!'));
+                console.log(clc.green('Operation done !'));
             } catch (err) {
                 console.error(err);
                 // since we have errors lets rollback the changes we made
