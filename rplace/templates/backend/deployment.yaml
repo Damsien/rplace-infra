@@ -7,6 +7,9 @@ metadata:
     app: backend
 spec:
   replicas: 3
+  selector:
+    matchLabels:
+      app: backend
   template:
     metadata:
       labels:
@@ -14,32 +17,32 @@ spec:
     spec:
       containers:
       - name: backend
-        image: harbor.k8s.inpt.fr/rplace/backend:v1
+        image: harbor.k8s.inpt.fr/rplace/backend:v1.2
         imagePullPolicy: Always
         ports:
         - containerPort: 3000
         env:
         - name: MARIADB_HOST
-          value: {{ .Values.backend.MARIADB_HOST }}
+          value: "{{ .Values.backend.MARIADB_HOST }}"
         - name: MARIADB_PORT
-          value: {{ .Values.backend.MARIADB_PORT }}
+          value: "{{ .Values.backend.MARIADB_PORT }}"
         - name: MARIADB_USER
-          value: {{ .Values.backend.MARIADB_USER }}
+          value: "{{ .Values.backend.MARIADB_USER }}"
         - name: MARIADB_PASSWORD
-          value: {{ .Values.backend.MARIADB_PASSWORD }}
+          value: "{{ .Values.backend.MARIADB_PASSWORD }}"
         - name: MARIADB_DATABASE
-          value: {{ .Values.backend.MARIADB_DATABASE }}
+          value: "{{ .Values.backend.MARIADB_DATABASE }}"
         - name: MARIADB_DEV
-          value: {{ .Values.backend.MARIADB_DEV }}
+          value: "{{ .Values.backend.MARIADB_DEV }}"
         - name: REDIS_HOST
-          value: {{ .Values.backend.REDIS_HOST }}
+          value: "{{ .Values.backend.REDIS_HOST }}"
         - name: AT_SECRET
-          value: {{ .Values.backend.AT_SECRET }}
+          value: "{{ .Values.backend.AT_SECRET }}"
         - name: RT_SECRET
-          value: {{ .Values.backend.RT_SECRET }}
+          value: "{{ .Values.backend.RT_SECRET }}"
         - name: ROLE_ADMIN
-          value: {{ .Values.backend.ROLE_ADMIN }}
+          value: "{{ .Values.backend.ROLE_ADMIN }}"
         - name: LOCAL_PSCOPE
-          value: {{ .Values.backend.LOCAL_PSCOPE }}
+          value: "{{ .Values.backend.LOCAL_PSCOPE }}"
       imagePullSecrets:
       - name: rplace-pull-secret

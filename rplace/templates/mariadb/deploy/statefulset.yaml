@@ -23,7 +23,7 @@ spec:
       #         app: mariadb
       initContainers:
       - name: init-mariadb
-        image: mariadb:10.7.4
+        image: mariadb:10.7.4-focal
         imagePullPolicy: Always
         command:
         - bash
@@ -54,7 +54,7 @@ spec:
       restartPolicy: Always
       containers:
       - name: mariadb
-        image: mariadb:10.7.4
+        image: mariadb:10.7.4-focal
         ports:
         - containerPort: 3306
           name: mariadb

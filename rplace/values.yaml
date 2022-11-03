@@ -3,17 +3,17 @@
 # Declare variables to be passed into your templates.
 
 backend:
-  MARIADB_HOST: localhost
+  MARIADB_HOST: mariadb
   MARIADB_PORT: 3306
   MARIADB_USER: root
   MARIADB_PASSWORD: password
   MARIADB_DATABASE: rplace
   MARIADB_DEV: false
-  REDIS_HOST: redis://localhost:6379
+  REDIS_HOST: redis://redis:6379
   AT_SECRET: AT_SECRET
   RT_SECRET: RT_SECRET
   ROLE_ADMIN: inp.ddassieu
   LOCAL_PSCOPE: loc,ecv
 
 frontend:
-  VITE_APP_BACKEND_URL_API: localhost
+  VITE_APP_BACKEND_URL_API: rplace-backend

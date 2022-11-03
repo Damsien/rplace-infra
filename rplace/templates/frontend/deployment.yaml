@@ -7,6 +7,9 @@ metadata:
     app: frontend
 spec:
   replicas: 3
+  selector:
+    matchLabels:
+      app: frontend
   template:
     metadata:
       labels:
@@ -14,12 +17,12 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: harbor.k8s.inpt.fr/rplace/frontend:v1
+        image: harbor.k8s.inpt.fr/rplace/frontend:v1.1
         imagePullPolicy: Always
         ports:
-        - containerPort: 3000
+        - containerPort: 5173
         env:
         - name: VITE_APP_BACKEND_URL_API
-          value: {{ .Values.backend.VITE_APP_BACKEND_URL_API }}
+          value: "{{ .Values.backend.VITE_APP_BACKEND_URL_API }}"
       imagePullSecrets:
       - name: rplace-pull-secret

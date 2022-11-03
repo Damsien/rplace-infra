@@ -1,0 +1,16 @@
+# apiVersion: networking.k8s.io/v1beta1
+# kind: Ingress
+# metadata:
+#   name: http-backend
+#   namespace: rplace
+#   annotations:
+#     kubernetes.io/ingress.class: nginx
+#   spec:
+#     rules:
+#     - host: rplace.inpt.fr
+#       http:
+#         paths:
+#         - path: /
+#           rplace:
+#             serviceName: rplace-backend
+#             servicePort: 3000
