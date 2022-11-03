@@ -1,0 +1,36 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: hello
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: rts
+            image: harbor.k8s.inpt.fr/rplace/rts:v1
+            imagePullPolicy: IfNotPresent
+            env:
+            - name: MARIADB_HOST
+              value: {{ .Values.backend.MARIADB_HOST }}
+            - name: MARIADB_PORT
+              value: {{ .Values.backend.MARIADB_PORT }}
+            - name: MARIADB_USER
+              value: {{ .Values.backend.MARIADB_USER }}
+            - name: MARIADB_PASSWORD
+              value: {{ .Values.backend.MARIADB_PASSWORD }}
+            - name: MARIADB_DATABASE
+              value: {{ .Values.backend.MARIADB_DATABASE }}
+            - name: MARIADB_DEV
+              value: {{ .Values.backend.MARIADB_DEV }}
+            - name: REDIS_HOST
+              value: {{ .Values.backend.REDIS_HOST }}
+          - name: rtr
+            image: harbor.k8s.inpt.fr/rplace/rtr:v1
+            imagePullPolicy: IfNotPresent
+            env:
+            - name: REDIS_HOST
+              value: {{ .Values.backend.REDIS_HOST }}
+          restartPolicy: OnFailure

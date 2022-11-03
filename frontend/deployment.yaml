@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rplace-frontend
+  namespace: rplace
+  labels:
+    app: frontend
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: harbor.k8s.inpt.fr/rplace/frontend:v1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+        env:
+        - name: VITE_APP_BACKEND_URL_API
+          value: {{ .Values.backend.VITE_APP_BACKEND_URL_API }}
+      imagePullSecrets:
+      - name: rplace-pull-secret
