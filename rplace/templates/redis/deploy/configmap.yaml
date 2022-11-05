@@ -248,7 +248,7 @@ data:
     protected (using the \"requirepass\" configuration\n# directive below) it is possible
     to tell the replica to authenticate before\n# starting the replication synchronization
     process, otherwise the master will\n# refuse the replica request.\n#\nmasterauth
-    VERY_SECRET_PASSWORD\n#\n# However this is not enough if you are using Redis ACLs (for Redis
+    {{ .Values.redis.PASSWORD }}\n#\n# However this is not enough if you are using Redis ACLs (for Redis
     version\n# 6 or greater), and the default user is not capable of running the PSYNC\n#
     command and/or other commands needed for replication. In this case it's\n# better
     to configure a special user to use with replication, and specify the\n# masteruser
@@ -423,7 +423,7 @@ data:
     should not be memorized by any human, the password\n# can be easily a long string
     from /dev/urandom or whatever, so by using a\n# long and unguessable password
     no brute force attack will be possible.\n\n# Redis ACL users are defined in the
-    following format:\n#\n#   user <username> ... acl rules ...\n#\n# For example:\n#\n#
+    following format:\n#\n#   user <username> ... acl rules ...\n\nuser rplace on +@all -DEBUG ~* >{{ .Values.redis.PASSWORD }}\n\n# For example:\n#\n#
     \  user worker +@list +@connection ~jobs:* on >ffa9203c493aa99\n#\n# The special
     username \"default\" is used for new connections. If this user\n# has the \"nopass\"
     rule, then new connections will be immediately authenticated\n# as the \"default\"
@@ -501,7 +501,7 @@ data:
     as usually, or more explicitly with AUTH default <password>\n# if they follow
     the new protocol: both will work.\n#\n# The requirepass is not compatable with
     aclfile option and the ACL LOAD\n# command, these will cause requirepass to be
-    ignored.\n#\nrequirepass VERY_SECRET_PASSWORD\n\n# New users are initialized with restrictive
+    ignored.\n#\nrequirepass {{ .Values.redis.PASSWORD }}\n\n# New users are initialized with restrictive
     permissions by default, via the\n# equivalent of this ACL rule 'off resetkeys
     -@all'. Starting with Redis 6.2, it\n# is possible to manage access to Pub/Sub
     channels with ACL rules as well. The\n# default Pub/Sub channels permission if

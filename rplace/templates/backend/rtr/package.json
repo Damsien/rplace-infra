@@ -4,7 +4,9 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "npx tsc && node dist/app.js"
+    "start": "npx tsc && node dist/app.js",
+    "build": "npx tsc",
+    "start:prod": "node dist/app.js"
   },
   "keywords": [],
   "author": "",

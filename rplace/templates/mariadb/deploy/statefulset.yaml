@@ -107,4 +107,4 @@ spec:
       storageClassName: "local-ssd"
       resources:
         requests:
-          storage: 300M
+          storage: {{ .Values.mariadb.CAPACITY }}
