@@ -23,17 +23,17 @@ spec:
         - containerPort: 3000
         env:
         - name: MARIADB_HOST
-          value: "{{ .Values.mariadbHOST }}"
+          value: "{{ .Values.mariadb.HOST }}"
         - name: MARIADB_PORT
-          value: "{{ .Values.mariadbPORT }}"
+          value: "{{ .Values.mariadb.PORT }}"
         - name: MARIADB_USER
-          value: "{{ .Values.mariadbUSER }}"
+          value: "{{ .Values.mariadb.USER }}"
         - name: MARIADB_PASSWORD
           value: "{{ .Values.mariadb.PASSWORD }}"
         - name: MARIADB_DATABASE
-          value: "{{ .Values.mariadbDATABASE }}"
+          value: "{{ .Values.mariadb.DATABASE }}"
         - name: MARIADB_DEV
-          value: "{{ .Values.mariadbDEV }}"
+          value: "{{ .Values.mariadb.DEV }}"
         - name: REDIS_HOST
           value: "{{ .Values.redis.HOST }}"
         - name: AT_SECRET
