@@ -36,7 +36,7 @@ spec:
         command: [ "sh", "-c" ]
         args:
           - |
-            nodes=redis-0.redis,redis-1.redis,redis-2.redis
+            nodes=redis-0.redis-sentinel,redis-1.redis-sentinel,redis-2.redis-sentinel
 
             MASTER=
             while [ "$MASTER" == "" ];

@@ -14,6 +14,7 @@ spec:
       labels:
         app: redis
     spec:
+      serviceAccountName: internal-kubectl
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -36,6 +37,16 @@ spec:
         command: [ "sh", "-c" ]
         args:
           - |
+            # Install curl
+            apk update
+            apk upgrade
+            apk add curl
+
+            # Install kubectl binary
+            curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+            chmod +x ./kubectl
+            mv ./kubectl /usr/local/bin/kubectl
+
             cp /tmp/redis/redis.conf /etc/redis/redis.conf
 
             # Set password in the config file
@@ -48,10 +59,12 @@ spec:
 
               if [ "$(hostname)" = "redis-0" ]; then
                 echo "this is redis-0, not updating config..."
+                kubectl label pods $(hostname) node=master -n rplace
               else
                 echo "updating redis.conf..."
                 echo "" >> /etc/redis/redis.conf
                 echo "replicaof $MASTER_FDQN 6379" >> /etc/redis/redis.conf
+                kubectl label pods $(hostname) node=slave -n rplace
               fi
             else
               echo "sentinel found, finding master"
@@ -59,6 +72,7 @@ spec:
               echo "master found : $MASTER, updating redis.conf"
               echo "" >> /etc/redis/redis.conf
               echo "slaveof $MASTER 6379" >> /etc/redis/redis.conf
+              kubectl label pods $(hostname) node=slave -n rplace
             fi
         volumeMounts:
         - name: redis-config

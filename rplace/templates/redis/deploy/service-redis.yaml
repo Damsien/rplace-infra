@@ -1,15 +1,16 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: redis
-  namespace: rplace
-spec:
-  clusterIP: None
-  ports:
-  - name: redis
-    port: 6379
-    protocol: TCP
-    targetPort: 6379
-  selector:
-    app: redis
-  type: ClusterIP
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: redis
+#   namespace: rplace
+# spec:
+#   clusterIP: None
+#   ports:
+#   - name: redis
+#     port: 6379
+#     protocol: TCP
+#     targetPort: 6379
+#   selector:
+#     app: redis
+#     node: master
+#   type: ClusterIP
