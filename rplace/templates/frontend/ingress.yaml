@@ -5,19 +5,6 @@ metadata:
   namespace: rplace
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod-dns
-
-    # this annotation is making my web application also work if I plan to configure something in future.
-    nginx.ingress.kubernetes.io/ingress.class: nginx
-
-    # this one annotation is making the websocket work.
-    nginx.ingress.kubernetes.io/websocket-services: rplace-backend
-
-    # by default ssl is true - as I am trying locally and want to disable ssl-# redirect. So set this to false.
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
-
-    # Below are just additional annotation to allow CORS etc.
-    nginx.ingress.kubernetes.io/cors-allow-methods: "GET, PUT, POST, DELETE, OPTIONS"
-    nginx.ingress.kubernetes.io/proxy-body-size: 10m
 spec:
   rules:
   - host: rplace.k8s.inpt.fr
@@ -28,13 +15,6 @@ spec:
         backend:
           service:
             name: rplace-frontend
-            port:
-              number: 8080
-      - path: /socket.io/
-        pathType: Prefix
-        backend:
-          service:
-            name: rplace-backend
             port:
               number: 8080
       - path: /api/

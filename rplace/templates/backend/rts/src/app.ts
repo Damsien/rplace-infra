@@ -40,9 +40,17 @@ async function delStreams() {
     ]);
 
     for(let stream of streams) {
-        await client.execute([
-            'DEL', stream
-        ]);
+        let loop = true;
+        while (loop) {
+            try {
+                await client.execute([
+                    'DEL', stream
+                ]);
+                loop = false;
+            } catch (err) {
+                loop = true;
+            }
+        }
     }
 }
 
@@ -104,7 +112,15 @@ async function pushOnMySQL() {
         if (isOperationReady) {
 
             game.isOperationReady = false;
-            await gameRepo.save(game);
+            let loop = true;
+            while (loop) {
+                try {
+                    await gameRepo.save(game);
+                    loop = false
+                } catch (err) {
+                    loop = true;
+                }
+            }
             console.log('Start operation');
 
             const qRunner = AppDataSource.createQueryRunner();

@@ -73,6 +73,7 @@ spec:
               echo "" >> /etc/redis/redis.conf
               echo "slaveof $MASTER 6379" >> /etc/redis/redis.conf
               kubectl label pods $(hostname) node=slave -n rplace
+              kubectl label --overwrite pods $MASTER node=master -n rplace
             fi
         volumeMounts:
         - name: redis-config

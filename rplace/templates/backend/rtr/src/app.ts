@@ -1,15 +1,15 @@
 import "reflect-metadata";
-import { Client, Repository } from "redis-om";
+import { createClient } from 'redis';
 import 'dotenv/config'
 import { exit } from "process";
 import { PixelAnon } from "./pixel-anon.dto";
 const clc = require("cli-color");
 
-const client = new Client();
+const client = createClient({url: process.env.REDIS_HOST});
 
 async function getJsonPixel(pxl: string) {
 
-    const json = await client.jsonget(pxl);
+    const json = await client.json.get(pxl);
 
     const pixel = new PixelAnon();
     pixel.coord_x = json['coord_x'];
@@ -23,7 +23,7 @@ async function fetchMapRaw() {
     let pixels = new Array<PixelAnon>();
 
     let all;
-    all = await client.execute([
+    all = await client.sendCommand([
         'KEYS', 'Pixel:*'
     ]);
 
@@ -42,12 +42,20 @@ async function fetchMapRaw() {
 
 
 async function updateRedisMap() {
-    await client.open(process.env.REDIS_HOST);
+    await client.connect();
     const json = JSON.stringify(await fetchMapRaw());
     const base64 = btoa(json);
-    await client.execute([
-      'SET', 'Map', base64
-    ]);
+    let loop = true;
+    while (loop) {
+        try {
+            await client.sendCommand([
+            'SET', 'Map', base64
+            ]);
+            loop = false;
+        } catch (err) {
+            loop = true;
+        }
+    }
     process.stdout.write(`\n\n`)
     console.log(clc.green('Operation done !'));
     exit(0);
