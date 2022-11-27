@@ -27,20 +27,20 @@ spec:
             topologyKey: "kubernetes.io/hostname"
       initContainers:
       - name: config
-        image: redis:6.2.3-alpine
+        image: redis:6.2.3
         env:
         - name: REDIS_PASSWORD
           valueFrom:
             secretKeyRef:
               name: redis-secret
               key: redis-password
-        command: [ "sh", "-c" ]
+        command: [ "bash", "-c" ]
         args:
           - |
             # Install curl
-            apk update
-            apk upgrade
-            apk add curl
+            apt-get update -y
+            apt-get upgrade -y
+            apt-get install curl -y
 
             # Install kubectl binary
             curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
@@ -73,7 +73,12 @@ spec:
               echo "" >> /etc/redis/redis.conf
               echo "slaveof $MASTER 6379" >> /etc/redis/redis.conf
               kubectl label pods $(hostname) node=slave -n rplace
-              kubectl label --overwrite pods $MASTER node=master -n rplace
+              masterName=$(kubectl get pods -o custom-columns=:metadata.name --no-headers=true --field-selector status.podIP=${MASTER})
+              if [ "$masterName" == "" ]; then
+                arrIN=(${MASTER//./ })
+                masterName=${arrIN[0]}
+              fi
+              kubectl label --overwrite pods $masterName node=master -n rplace
             fi
         volumeMounts:
         - name: redis-config
