@@ -1,38 +1,46 @@
-apiVersion: batch/v1
-kind: CronJob
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: rplace
+  name: rplace-cronjob
   namespace: rplace
+  labels:
+    app: cronjob
 spec:
-  schedule: "* * * * *"
-  jobTemplate:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: cronjob
+  template:
+    metadata:
+      labels:
+        app: cronjob
     spec:
-      activeDeadlineSeconds: 700
-      template:
-        spec:
-          containers:
-          - name: rts
-            image: harbor.k8s.inpt.fr/rplace/rts:v1
-            imagePullPolicy: IfNotPresent
-            env:
-            - name: MARIADB_HOST
-              value: "{{ .Values.mariadb.HOST }}"
-            - name: MARIADB_PORT
-              value: "{{ .Values.mariadb.PORT }}"
-            - name: MARIADB_USER
-              value: "{{ .Values.mariadb.USER }}"
-            - name: MARIADB_PASSWORD
-              value: "{{ .Values.mariadb.PASSWORD }}"
-            - name: MARIADB_DATABASE
-              value: "{{ .Values.mariadb.DATABASE }}"
-            - name: MARIADB_DEV
-              value: "{{ .Values.mariadb.DEV }}"
-            - name: REDIS_HOST
-              value: "{{ .Values.redis.HOST }}"
-          - name: rtr
-            image: harbor.k8s.inpt.fr/rplace/rtr:v1
-            imagePullPolicy: IfNotPresent
-            env:
-            - name: REDIS_HOST
-              value: {{ .Values.redis.HOST }}
-          restartPolicy: OnFailure
+      containers:
+        - name: rts
+          image: harbor.k8s.inpt.fr/rplace/rts:v2
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: MARIADB_HOST
+            value: "{{ .Values.mariadb.HOST }}"
+          - name: MARIADB_PORT
+            value: "{{ .Values.mariadb.PORT }}"
+          - name: MARIADB_USER
+            value: "{{ .Values.mariadb.USER }}"
+          - name: MARIADB_PASSWORD
+            value: "{{ .Values.mariadb.PASSWORD }}"
+          - name: MARIADB_DATABASE
+            value: "{{ .Values.mariadb.DATABASE }}"
+          - name: MARIADB_DEV
+            value: "{{ .Values.mariadb.DEV }}"
+          - name: REDIS_HOST
+            value: "{{ .Values.redis.HOST }}"
+          - name: TIMER
+            value: "{{ .Values.cronjob.rts.TIMER }}"
+        - name: rtr
+          image: harbor.k8s.inpt.fr/rplace/rtr:v2
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: REDIS_HOST
+            value: {{ .Values.redis.HOST }}
+          - name: TIMER
+            value: "{{ .Values.cronjob.rtr.TIMER }}"

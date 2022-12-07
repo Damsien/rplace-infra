@@ -19,6 +19,7 @@
     "cli-color": "^2.0.3",
     "dotenv": "^16.0.1",
     "mysql": "^2.18.1",
+    "node-cron": "^3.0.2",
     "redis-om": "^0.3.6",
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.3.7"

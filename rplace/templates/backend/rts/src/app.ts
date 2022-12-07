@@ -8,6 +8,7 @@ import { UserEntity } from "./sql-entity/user.entity";
 import 'dotenv/config'
 import { exit } from "process";
 const clc = require("cli-color");
+var cron = require('node-cron');
 
 // const startDate = new Date();
 
@@ -26,12 +27,17 @@ const AppDataSource = new DataSource({
     synchronize: false,
 });
 
-AppDataSource.initialize()
-    .then(() => {
-        console.log(clc.green('Database connexion done!'));
+main();
+
+async function main() {
+    await AppDataSource.initialize();
+    console.log(clc.green('Database connexion done!'));
+    await cron.schedule(`*/${process.env['TIMER']} * * * * *`, () => {
+    
         pushOnMySQL();
-    })
-    .catch((error) => console.log(error));
+    
+    });
+}
 
 async function delStreams() {
     let streams;
@@ -171,7 +177,7 @@ async function pushOnMySQL() {
                 await qRunner.release();
             }
 
-            exit(0);
+            // exit(0);
 
         } else {
             console.log(clc.red('Abort'));
@@ -185,11 +191,11 @@ async function pushOnMySQL() {
     }
     
 
-    exit(1);
+    // exit(1);
 }
 
 
-
+/*
 function exitHandler(options, exitCode) {
     if (options.cleanup) {
         (gameRepo.search().where('name').eq('Game').return.first()).then(game => {
@@ -215,3 +221,4 @@ process.on('SIGUSR2', exitHandler.bind(null, {cleanup:true}));
 
 //catches uncaught exceptions
 process.on('uncaughtException', exitHandler.bind(null, {cleanup:true}));
+*/

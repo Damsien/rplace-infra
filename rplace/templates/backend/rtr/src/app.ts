@@ -4,6 +4,7 @@ import 'dotenv/config'
 import { exit } from "process";
 import { PixelAnon } from "./pixel-anon.dto";
 const clc = require("cli-color");
+var cron = require('node-cron');
 
 const client = createClient({url: process.env.REDIS_HOST});
 
@@ -42,7 +43,6 @@ async function fetchMapRaw() {
 
 
 async function updateRedisMap() {
-    await client.connect();
     const json = JSON.stringify(await fetchMapRaw());
     const base64 = btoa(json);
     let loop = true;
@@ -58,12 +58,20 @@ async function updateRedisMap() {
     }
     process.stdout.write(`\n\n`)
     console.log(clc.green('Operation done !'));
-    exit(0);
 }
 
-updateRedisMap();
+async function main() {
+    await client.connect();
+    await cron.schedule(`*/${process.env['TIMER']} * * * * *`, () => {
+    
+        updateRedisMap();
+    
+    });
+}
 
+main();
 
+/*
 function exitHandler(options, exitCode) {
     if (exitCode || exitCode === 0) process.stdout.write(`\n\n`); console.log(exitCode);
     if (options.exit) process.exit();
@@ -81,3 +89,4 @@ process.on('SIGUSR2', exitHandler.bind(null, {cleanup:true}));
 
 //catches uncaught exceptions
 process.on('uncaughtException', exitHandler.bind(null, {cleanup:true}));
+*/
