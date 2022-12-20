@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: harbor.k8s.inpt.fr/rplace/frontend:v1.3
+        image: harbor.k8s.inpt.fr/rplace/frontend:v1.4
         imagePullPolicy: Always
         ports:
         - containerPort: 80
