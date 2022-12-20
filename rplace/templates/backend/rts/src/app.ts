@@ -189,6 +189,10 @@ async function pushOnMySQL() {
         console.log(err);
         console.log(clc.red('Abort'));
     }
+
+    const game = await gameRepo.search().where('name').eq('Game').return.first()
+    game.isOperationReady = true;
+    await gameRepo.save(game)
     
 
     // exit(1);
