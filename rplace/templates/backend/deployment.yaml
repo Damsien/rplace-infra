@@ -6,10 +6,15 @@ metadata:
   labels:
     app: backend
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: backend
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
   template:
     metadata:
       labels:
@@ -18,7 +23,7 @@ spec:
       containers:
       - name: backend
         image: harbor.k8s.inpt.fr/rplace/backend:v1.4
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3000
         env:
