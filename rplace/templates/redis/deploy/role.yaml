@@ -4,9 +4,10 @@ metadata:
   name: modify-pods
   namespace: rplace
 rules:
-  - apiGroups: ["", "discovery.k8s.io"]
+  - apiGroups: ["", "discovery.k8s.io", "apps"]
     resources:
       - pods
+      - statefulsets
       - endpointslices
     verbs:
       - get

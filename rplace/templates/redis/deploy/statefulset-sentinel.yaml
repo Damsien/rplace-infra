@@ -9,11 +9,10 @@ spec:
   selector:
     matchLabels:
       app: sentinel
-  strategy:
+  updateStrategy:
     type: RollingUpdate
     rollingUpdate:
-      maxUnavailable: 0
-      maxSurge: 1
+      partition: 1
   template:
     metadata:
       labels:
@@ -51,6 +50,8 @@ spec:
             curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
             chmod +x ./kubectl
             mv ./kubectl /usr/local/bin/kubectl
+
+            until kubectl get statefulset redis -o jsonpath="{.status.readyReplicas}"; do sleep 60000; done
 
             echo $(kubectl get endpointslices -n rplace | grep redis-sentinel)
             edpts="<none>"
@@ -108,7 +109,7 @@ spec:
           mountPath: /etc/redis/
       containers:
       - name: sentinel
-        image: redis/redis-stack-server:latest
+        image: redis/redis-stack-server:7.0.6-RC3
         command: ["redis-sentinel"]
         args: ["/etc/redis/sentinel.conf"]
         imagePullPolicy: IfNotPresent

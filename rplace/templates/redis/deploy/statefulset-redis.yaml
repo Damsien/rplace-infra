@@ -9,11 +9,10 @@ spec:
   selector:
     matchLabels:
       app: redis
-  strategy:
+  updateStrategy:
     type: RollingUpdate
     rollingUpdate:
-      maxUnavailable: 0
-      maxSurge: 1
+      partition: 1
   template:
     metadata:
       labels:
@@ -93,7 +92,7 @@ spec:
       containers:
       - name: redis
         imagePullPolicy: IfNotPresent
-        image: redis/redis-stack-server:latest
+        image: redis/redis-stack-server:7.0.6-RC3
         command: ["redis-stack-server"]
         args: ["/etc/redis/redis.conf"]
         ports:
@@ -101,7 +100,7 @@ spec:
           name: redis
         volumeMounts:
         - name: data
-          mountPath: /data
+          mountPath: /var/lib/redis-stack/
         - name: redis-config
           mountPath: /etc/redis/
       volumes:
