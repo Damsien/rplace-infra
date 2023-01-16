@@ -1,0 +1,141 @@
+questions:
+####    Backend     ####
+- variable: backend.AT_SECRET
+  label: Access token secret
+  description: Used for the user session
+  type: string
+  default: AT_SECRET
+  required: true
+  group: Backend
+- variable: backend.RT_SECRET
+  label: Refresh token secret
+  description: Used for the user session
+  type: string
+  default: RT_SECRET
+  required: true
+  group: Backend
+- variable: backend.LOCAL_PSCOPE
+  label: Pscope
+  description: Used for user creation (separate by comma ',')
+  type: string
+  default: loc,ecv
+  required: false
+  group: Backend
+- variable: backend.ROLE_ADMIN
+  label: Administrators users
+  description: Users that will be administrators for the game (separate by comma ',')
+  type: string
+  default: pscope.username1,pscope.username3
+  required: true
+  group: Backend
+####    Cronjob     ####
+- variable: cronjob.rtr.TIMER
+  label: Redis map update timer
+  description: Time between each map update (in seconds)
+  type: int
+  default: 3
+  required: true
+  group: Cronjob
+- variable: cronjob.rts.TIMER
+  label: Redis to Mariadb update
+  description: Time between each redis to mariadb push (in seconds)
+  type: int
+  default: 60
+  required: true
+  group: Cronjob
+####    Frontend    ####
+- variable: frontend.VITE_APP_BACKEND_API_URL
+  label: Backend api url
+  description: The url used for api calls
+  type: string
+  default: https://rplace.k8s.inpt.fr/api/v1
+  required: true
+  group: Frontend
+- variable: frontend.VITE_APP_BACKEND_URL
+  label: Backend url
+  description: The url used for the socket connection
+  type: string
+  default: https://rplace.k8s.inpt.fr
+  required: true
+  group: Frontend
+####    Mariadb     ####
+- variable: mariadb.CAPACITY
+  label: Storage capacity
+  description: The storage capacity of the database (XMi, XGi)
+  type: string
+  default: 10Gi
+  required: true
+  group: Mariadb
+- variable: mariadb.DATABSE
+  label: Database name
+  type: string
+  default: rplace
+  required: true
+  group: Mariadb
+- variable: mariadb.DEV
+  label: Development mode
+  description: Is the application runs in development mode
+  type: boolean
+  default: false
+  required: true
+  group: Mariadb
+- variable: mariadb.HOST
+  label: Mariadb host name
+  description: The name of the mariadb host used by the backend api
+  type: string
+  default: mariadb
+  required: true
+  group: Mariadb
+- variable: mariadb.USER
+  label: Mariadb user
+  type: string
+  default: <maria_user>
+  required: true
+  group: Mariadb
+- variable: mariadb.PASSWORD
+  label: Mariadb password
+  type: string
+  default: <maria_password>
+  required: true
+  group: Mariadb
+- variable: mariadb.PORT
+  label: Mariadb port
+  type: int
+  default: 3306
+  required: true
+  group: Mariadb
+- variable: mariadb.REPL_USER
+  label: Mariadb replication user
+  description: The mariadb user used for the replication (only when using clustered mariabd)
+  type: string
+  default: <maria_replication_user>
+  required: true
+  group: Mariadb
+- variable: mariadb.REPL_PASSWORD
+  label: Mariadb replication password
+  description: The mariadb password used for the replication (only when using clustered mariabd)
+  type: string
+  default: <maria_replication_password>
+  required: true
+  group: Mariadb
+####    Redis   ####
+- variable: redis.CAPACITY
+  label: Storage capacity
+  description: The storage capacity used for the redis backup (XMi, XGi)
+  type: string
+  default: 8Gi
+  required: true
+  group: Redis
+- variable: redis.HOST
+  label: Redis host
+  description: The host used by the backend api
+  type: redis://rplace:<redis_password>@<redis_service_name>:6379
+  default: 8Gi
+  required: true
+  group: Redis
+- variable: redis.PASSWORD
+  label: Redis password
+  type: string
+  default: <redis_password>
+  required: true
+  group: Redis
