@@ -1,0 +1,35 @@
+# Default values for the rplace chart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+backend:
+  AT_SECRET: AT_SECRET
+  RT_SECRET: RT_SECRET
+  ROLE_ADMIN: pscope.username1,pscope.username3
+  LOCAL_PSCOPE: loc,ecv
+
+frontend:
+  VITE_APP_BACKEND_URL: https://rplace.k8s.inpt.fr
+  VITE_APP_BACKEND_API_URL: https://rplace.k8s.inpt.fr/api/v1
+
+redis:
+  HOST: redis://rplace:<redis_password>@<redis_service_name>:6379
+  PASSWORD: <redis_password>
+  CAPACITY: 8Gi   # 8Gi
+
+mariadb:
+  HOST: mariadb
+  PORT: 3306
+  USER: <maria_user>
+  PASSWORD: <maria_password>
+  DATABASE: <database_name>
+  DEV: false
+  REPL_USER: <maria_replication_user>
+  REPL_PASSWORD: <maria_replication_password>
+  CAPACITY: 10Gi    # 20Gi
+
+cronjob:
+  rts:
+    TIMER: 60    # push to redis every 5 seconds
+  rtr:
+    TIMER: 3     # push to mariadb every 60 seconds
