@@ -9,8 +9,8 @@ backend:
   LOCAL_PSCOPE: loc,ecv
 
 frontend:
-  VITE_APP_BACKEND_URL: https://rplace.k8s.inpt.fr
-  VITE_APP_BACKEND_API_URL: https://rplace.k8s.inpt.fr/api/v1
+  VITE_APP_BACKEND_URL: https://place.inpt.fr
+  VITE_APP_BACKEND_API_URL: https://place.inpt.fr/api/v1
 
 redis:
   HOST: redis://rplace:<redis_password>@<redis_service_name>:6379
