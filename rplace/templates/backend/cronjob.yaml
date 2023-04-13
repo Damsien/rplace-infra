@@ -46,6 +46,6 @@ spec:
           imagePullPolicy: IfNotPresent
           env:
           - name: REDIS_HOST
-            value: {{ .Values.redis.HOST }}
+            value: "{{ .Values.redis.HOST }}"
           - name: TIMER
             value: "{{ .Values.cronjob.rtr.TIMER }}"

@@ -129,8 +129,8 @@ questions:
 - variable: redis.HOST
   label: Redis host
   description: The host used by the backend api
-  type: redis://rplace:<redis_password>@<redis_service_name>:6379
-  default: 8Gi
+  type: string
+  default: redis://rplace:<redis_password>@<redis_service_name>:6379
   required: true
   group: Redis
 - variable: redis.PASSWORD
