@@ -1,6 +1,6 @@
 apiVersion: v2
 name: rplace
-description: A Helm chart for Kubernetes to deploy the rplace game (pixel war)
+description: A Helm chart for Kubernetes to deploy the rplace game
 
 # A chart can be either an 'application' or a 'library' chart.
 #
