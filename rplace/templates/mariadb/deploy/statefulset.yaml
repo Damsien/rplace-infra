@@ -48,6 +48,7 @@ spec:
           # ./mnt/config-map/init.sh
           ls /etc/mysql/conf.d/
           cat /etc/mysql/conf.d/server-id.cnf
+          echo "skip-grant-tables" >> /etc/mysql/my.cnf
         volumeMounts:
           - name: mariadb-config
             mountPath: /mnt/config-map
