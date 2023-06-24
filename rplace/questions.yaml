@@ -66,7 +66,7 @@ questions:
   default: 10Gi
   required: true
   group: Mariadb
-- variable: mariadb.DATABSE
+- variable: mariadb.DATABASE
   label: Database name
   type: string
   default: rplace
