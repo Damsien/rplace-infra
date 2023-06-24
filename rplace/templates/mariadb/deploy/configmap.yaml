@@ -30,8 +30,6 @@ data:
     mysql -u root --password=${MARIADB_ROOT_PASSWORD} -e "CREATE USER '${MARIADB_REPL_USER}${ordinal}'@'%' IDENTIFIED BY '${MARIADB_REPL_PASSWORD}';";
     mysql -u root --password=${MARIADB_ROOT_PASSWORD} -e "GRANT REPLICATION SLAVE ON *.* TO '${MARIADB_REPL_USER}${ordinal}'@'%';";
     mysql -u root --password=${MARIADB_ROOT_PASSWORD} -e "CREATE DATABASE rplace;";
-    mysql -u root --password=${MARIADB_ROOT_PASSWORD} -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';";
-    mysql -u root --password=${MARIADB_ROOT_PASSWORD} -e "FLUSH PRIVILEGES";
     if [[ $ordinal -eq `expr $MAX_REPLICAS - 1` ]]; then
       new_ordinal=0;
     elif [[ $ordinal > `expr $MAX_REPLICAS - 1` ]]; then
