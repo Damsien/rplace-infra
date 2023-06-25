@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: harbor.k8s.inpt.fr/rplace/backend:v1.5
+        image: harbor.k8s.inpt.fr/rplace/backend:v1.6
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3000
@@ -39,8 +39,8 @@ spec:
           value: "{{ .Values.mariadb.DATABASE }}"
         - name: MARIADB_DEV
           value: "{{ .Values.mariadb.DEV }}"
-        - name: REDIS_HOST
-          value: "{{ .Values.redis.HOST }}"
+        - name: REDIS_PASSWORD
+          value: "{{ .Values.redis.PASSWORD }}"
         - name: AT_SECRET
           value: "{{ .Values.backend.AT_SECRET }}"
         - name: RT_SECRET
@@ -49,5 +49,7 @@ spec:
           value: "{{ .Values.backend.ROLE_ADMIN }}"
         - name: LOCAL_PSCOPE
           value: "{{ .Values.backend.LOCAL_PSCOPE }}"
+        - name: CONTACT_TEAM
+          value: "{{ .Values.backend.CONTACT_TEAM }}"
       imagePullSecrets:
       - name: rplace-pull-secret

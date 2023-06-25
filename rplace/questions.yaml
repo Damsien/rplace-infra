@@ -14,18 +14,32 @@ questions:
   default: RT_SECRET
   required: true
   group: Backend
+- variable: backend.SESSION_TIME
+  label: Session time
+  description: Time a user session remains active (in h)
+  type: string
+  default: 12h
+  required: true
+  group: Backend
 - variable: backend.LOCAL_PSCOPE
   label: Pscope
   description: Used for user creation (separate by comma ',')
   type: string
-  default: loc,ecv
+  default: loc,custom_local_pscope
   required: false
   group: Backend
 - variable: backend.ROLE_ADMIN
   label: Administrators users
   description: Users that will be administrators for the game (separate by comma ',')
   type: string
-  default: pscope.username1,pscope.username3
+  default: inp.ddassieu,pscope.username3
+  required: true
+  group: Backend
+- variable: backend.CONTACT_TEAM
+  label: Contact team
+  description: Each members the users can contact on the 'info' page (at the bottom of the page)
+  type: string
+  default: "{Damien Dassieu}-{https://m.me/Dami1Da},{}-{}"
   required: true
   group: Backend
 ####    Cronjob     ####
@@ -44,20 +58,20 @@ questions:
   required: true
   group: Cronjob
 ####    Frontend    ####
-- variable: frontend.VITE_APP_BACKEND_API_URL
-  label: Backend api url
-  description: The url used for api calls
-  type: string
-  default: https://rplace.k8s.inpt.fr/api/v1
-  required: true
-  group: Frontend
-- variable: frontend.VITE_APP_BACKEND_URL
-  label: Backend url
-  description: The url used for the socket connection
-  type: string
-  default: https://rplace.k8s.inpt.fr
-  required: true
-  group: Frontend
+# - variable: frontend.VITE_APP_BACKEND_API_URL
+#   label: Backend api url
+#   description: The url used for api calls
+#   type: string
+#   default: https://rplace.k8s.inpt.fr/api/v1
+#   required: true
+#   group: Frontend
+# - variable: frontend.VITE_APP_BACKEND_URL
+#   label: Backend url
+#   description: The url used for the socket connection
+#   type: string
+#   default: https://rplace.k8s.inpt.fr
+#   required: true
+#   group: Frontend
 ####    Mariadb     ####
 - variable: mariadb.CAPACITY
   label: Storage capacity
@@ -66,51 +80,38 @@ questions:
   default: 10Gi
   required: true
   group: Mariadb
-- variable: mariadb.DATABASE
-  label: Database name
-  type: string
-  default: rplace
-  required: true
-  group: Mariadb
-- variable: mariadb.DEV
-  label: Development mode
-  description: Is the application runs in development mode
-  type: boolean
-  default: false
-  required: true
-  group: Mariadb
-- variable: mariadb.HOST
-  label: Mariadb host name
-  description: The name of the mariadb host used by the backend api
-  type: string
-  default: mariadb
-  required: true
-  group: Mariadb
-- variable: mariadb.USER
-  label: Mariadb user
-  type: string
-  default: <maria_user>
-  required: true
-  group: Mariadb
+# - variable: mariadb.DATABASE
+#   label: Database name
+#   type: string
+#   default: rplace
+#   required: true
+#   group: Mariadb
+# - variable: mariadb.DEV
+#   label: Development mode
+#   description: Is the application runs in development mode
+#   type: boolean
+#   default: false
+#   required: true
+#   group: Mariadb
+# - variable: mariadb.HOST
+#   label: Mariadb host name
+#   description: The name of the mariadb host used by the backend api
+#   type: string
+#   default: mariadb
+#   required: true
+#   group: Mariadb
 - variable: mariadb.PASSWORD
-  label: Mariadb password
+  label: Mariadb password (user 'root')
   type: string
   default: <maria_password>
   required: true
   group: Mariadb
-- variable: mariadb.PORT
-  label: Mariadb port
-  type: int
-  default: 3306
-  required: true
-  group: Mariadb
-- variable: mariadb.REPL_USER
-  label: Mariadb replication user
-  description: The mariadb user used for the replication (only when using clustered mariabd)
-  type: string
-  default: <maria_replication_user>
-  required: true
-  group: Mariadb
+# - variable: mariadb.PORT
+#   label: Mariadb port
+#   type: int
+#   default: 3306
+#   required: true
+#   group: Mariadb
 - variable: mariadb.REPL_PASSWORD
   label: Mariadb replication password
   description: The mariadb password used for the replication (only when using clustered mariabd)
@@ -124,13 +125,6 @@ questions:
   description: The storage capacity used for the redis backup (XMi, XGi)
   type: string
   default: 8Gi
-  required: true
-  group: Redis
-- variable: redis.HOST
-  label: Redis host
-  description: The host used by the backend api
-  type: string
-  default: redis://rplace:<redis_password>@<redis_service_name>:6379
   required: true
   group: Redis
 - variable: redis.PASSWORD

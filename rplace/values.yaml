@@ -5,26 +5,28 @@
 backend:
   AT_SECRET: AT_SECRET
   RT_SECRET: RT_SECRET
-  ROLE_ADMIN: pscope.username1,pscope.username3
-  LOCAL_PSCOPE: loc,ecv
+  SESSION_TIME: 12h
+  ROLE_ADMIN: inp.ddassieu,pscope.username3
+  LOCAL_PSCOPE: loc,custom_local_pscope
+  CONTACT_TEAM: "{Damien Dassieu}-{https://m.me/Dami1Da},{}-{}"
 
 frontend:
   VITE_APP_BACKEND_URL: https://place.inpt.fr
   VITE_APP_BACKEND_API_URL: https://place.inpt.fr/api/v1
 
 redis:
-  HOST: redis://rplace:<redis_password>@<redis_service_name>:6379
+  # HOST: redis://rplace:<redis_password>@redis:6379
   PASSWORD: <redis_password>
   CAPACITY: 8Gi   # 8Gi
 
 mariadb:
   HOST: mariadb
   PORT: 3306
-  USER: <maria_user>
+  USER: root
   PASSWORD: <maria_password>
   DATABASE: <database_name>
   DEV: false
-  REPL_USER: <maria_replication_user>
+  REPL_USER: repluser
   REPL_PASSWORD: <maria_replication_password>
   CAPACITY: 10Gi    # 20Gi
 
