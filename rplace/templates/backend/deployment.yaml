@@ -51,5 +51,7 @@ spec:
           value: "{{ .Values.backend.LOCAL_PSCOPE }}"
         - name: CONTACT_TEAM
           value: "{{ .Values.backend.CONTACT_TEAM }}"
+        - name: SESSION_TIME
+          value: "{{ .Values.backend.SESSION_TIME }}"
       imagePullSecrets:
       - name: rplace-pull-secret
