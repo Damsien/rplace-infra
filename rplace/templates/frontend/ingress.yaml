@@ -4,10 +4,10 @@ metadata:
   name: http-rplace
   namespace: rplace
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod-dns
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   rules:
-  - host: rplace.k8s.inpt.fr
+  - host: place.inpt.fr
     http:
       paths:
       - path: /
@@ -26,5 +26,5 @@ spec:
               number: 8080
   tls:
   - hosts:
-      - rplace.k8s.inpt.fr
+      - place.inpt.fr
     secretName: rplace-tls
