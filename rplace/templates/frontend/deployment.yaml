@@ -26,5 +26,7 @@ spec:
           value: "{{ .Values.frontend.VITE_APP_BACKEND_URL }}"
         - name: VITE_APP_BACKEND_API_URL
           value: "{{ .Values.frontend.VITE_APP_BACKEND_API_URL }}"
+        - name: VITE_APP_PSCOPES
+          value: "{{ .Values.frontend.VITE_APP_PSCOPES }}"
       imagePullSecrets:
       - name: rplace-pull-secret

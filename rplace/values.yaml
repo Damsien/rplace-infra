@@ -13,6 +13,7 @@ backend:
 frontend:
   VITE_APP_BACKEND_URL: https://place.inpt.fr
   VITE_APP_BACKEND_API_URL: https://place.inpt.fr/api/v1
+  VITE_APP_PSCOPES: inp,loc
 
 redis:
   # HOST: redis://rplace:<redis_password>@redis:6379

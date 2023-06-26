@@ -58,6 +58,13 @@ questions:
   required: true
   group: Cronjob
 ####    Frontend    ####
+- variable: frontend.VITE_APP_PSCOPES
+  label: Pscopes
+  description: All prefixes allowed for the game (schools + the local created ones)
+  type: string
+  default: inp,loc
+  required: true
+  group: Frontend
 # - variable: frontend.VITE_APP_BACKEND_API_URL
 #   label: Backend api url
 #   description: The url used for api calls
@@ -101,7 +108,8 @@ questions:
 #   required: true
 #   group: Mariadb
 - variable: mariadb.PASSWORD
-  label: Mariadb password (user 'root')
+  label: Mariadb password
+  description: With user 'root'
   type: string
   default: <maria_password>
   required: true
