@@ -42,8 +42,9 @@ spec:
         args:
           - |
             # Install curl
-            #apt-get update -y
-            #apt-get upgrade -y
+            rm -rf /var/lib/apt/lists/*
+            apt-get update -y
+            apt-get upgrade -y
             apt-get install curl -y
 
             # Install kubectl binary
