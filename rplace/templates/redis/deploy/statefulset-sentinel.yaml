@@ -31,7 +31,7 @@ spec:
             topologyKey: "kubernetes.io/hostname"
       initContainers:
       - name: config
-        image: redis:6.2.3-buster
+        image: harbor.k8s.inpt.fr/rplace/redis-kubectl:latest
         env:
         - name: REDIS_PASSWORD
           valueFrom:
@@ -42,14 +42,6 @@ spec:
         args:
           - |
             # Install curl
-            apt-get update -y
-            apt-get upgrade -y
-            apt-get install curl -y
-
-            # Install kubectl binary
-            curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
-            chmod +x ./kubectl
-            mv ./kubectl /usr/local/bin/kubectl
 
             until kubectl get statefulset redis -o jsonpath="{.status.readyReplicas}"; do sleep 60000; done
 
@@ -107,6 +99,8 @@ spec:
         volumeMounts:
         - name: redis-config
           mountPath: /etc/redis/
+      imagePullSecrets:
+      - name: rplace-pull-secret
       containers:
       - name: sentinel
         image: redis/redis-stack-server:7.0.6-RC3
