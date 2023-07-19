@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: rts
-          image: harbor.k8s.inpt.fr/rplace/rts:v2
+          image: harbor.k8s.inpt.fr/rplace/rts:v3
           imagePullPolicy: IfNotPresent
           env:
           - name: MARIADB_HOST
@@ -37,15 +37,15 @@ spec:
             value: "{{ .Values.mariadb.DATABASE }}"
           - name: MARIADB_DEV
             value: "{{ .Values.mariadb.DEV }}"
-          - name: REDIS_HOST
-            value: "{{ .Values.redis.HOST }}"
+          - name: REDIS_PASSWORD
+            value: "{{ .Values.redis.PASSWORD }}"
           - name: TIMER
             value: "{{ .Values.cronjob.rts.TIMER }}"
         - name: rtr
-          image: harbor.k8s.inpt.fr/rplace/rtr:v2
+          image: harbor.k8s.inpt.fr/rplace/rtr:v3
           imagePullPolicy: IfNotPresent
           env:
-          - name: REDIS_HOST
-            value: "{{ .Values.redis.HOST }}"
+          - name: REDIS_PASSWORD
+            value: "{{ .Values.redis.PASSWORD }}"
           - name: TIMER
             value: "{{ .Values.cronjob.rtr.TIMER }}"

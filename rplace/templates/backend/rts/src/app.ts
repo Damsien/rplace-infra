@@ -13,7 +13,7 @@ var cron = require('node-cron');
 // const startDate = new Date();
 
 const client = new Client();
-client.open(process.env.REDIS_HOST);
+client.open(`redis://rplace:${process.env.REDIS_PASSWORD}@redis:6379`);
 let gameRepo: Repository<Game>;
 
 const AppDataSource = new DataSource({

@@ -6,7 +6,7 @@ import { PixelAnon } from "./pixel-anon.dto";
 const clc = require("cli-color");
 var cron = require('node-cron');
 
-const client = createClient({url: process.env.REDIS_HOST});
+const client = createClient({url: `redis://rplace:${process.env.REDIS_PASSWORD}@redis:6379`});
 
 async function getJsonPixel(pxl: string) {
 
