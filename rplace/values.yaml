@@ -25,7 +25,7 @@ mariadb:
   PORT: 3306
   USER: root
   PASSWORD: <maria_password>
-  DATABASE: <database_name>
+  DATABASE: rplace
   DEV: false
   REPL_USER: repluser
   REPL_PASSWORD: <maria_replication_password>
