@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: rplace-backend
-  namespace: rplace
+  namespace: pixel-war
   labels:
     app: backend
 spec:

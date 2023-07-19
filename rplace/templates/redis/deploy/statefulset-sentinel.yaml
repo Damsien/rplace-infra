@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: sentinel
-  namespace: rplace
+  namespace: pixel-war
 spec:
   serviceName: sentinel
   replicas: 1
@@ -45,11 +45,11 @@ spec:
 
             until kubectl get statefulset redis -o jsonpath="{.status.readyReplicas}"; do sleep 60000; done
 
-            echo $(kubectl get endpointslices -n rplace | grep redis-sentinel)
+            echo $(kubectl get endpointslices -n pixel-war | grep redis-sentinel)
             edpts="<none>"
             while [[ $edpts == *"<none>"* ]];
             do
-                edpts=$(kubectl get endpointslices -n rplace | grep redis-sentinel)
+                edpts=$(kubectl get endpointslices -n pixel-war | grep redis-sentinel)
             done
 
             arrIN=(${edpts//,/ })
