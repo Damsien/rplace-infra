@@ -31,7 +31,7 @@ spec:
             topologyKey: "kubernetes.io/hostname"
       initContainers:
       - name: config
-        image: redis:6.2.3
+        image: redis:6.2.4
         env:
         - name: REDIS_PASSWORD
           valueFrom:
