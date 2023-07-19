@@ -21,15 +21,8 @@ questions:
   default: 12h
   required: true
   group: Backend
-- variable: frontend.VITE_APP_PSCOPES
-  label: All pscopes
-  description: All prefixes allowed for the game (schools + the local created ones)
-  type: string
-  default: inp,loc
-  required: true
-  group: Backend
 - variable: backend.LOCAL_PSCOPE
-  label: Local pscopes
+  label: Pscope
   description: Used for user creation (separate by comma ',')
   type: string
   default: loc,custom_local_pscope
@@ -65,6 +58,13 @@ questions:
   required: true
   group: Cronjob
 ####    Frontend    ####
+- variable: frontend.VITE_APP_PSCOPES
+  label: Pscopes
+  description: All prefixes allowed for the game (schools + the local created ones)
+  type: string
+  default: inp,loc
+  required: true
+  group: Frontend
 # - variable: frontend.VITE_APP_BACKEND_API_URL
 #   label: Backend api url
 #   description: The url used for api calls
