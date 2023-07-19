@@ -31,7 +31,7 @@ spec:
             topologyKey: "kubernetes.io/hostname"
       initContainers:
       - name: config
-        image: redis:6.2.3-buster
+        image: harbor.k8s.inpt.fr/rplace/redis-kubectl:latest
         env:
         - name: REDIS_PASSWORD
           valueFrom:
@@ -41,20 +41,6 @@ spec:
         command: [ "bash", "-c" ]
         args:
           - |
-            # Install curl
-            rm -rf /var/lib/apt/lists/*
-            apt-get clean
-            apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 04EE7237B7D453EC 648ACFD622F3D138
-            echo 'deb http://httpredir.debian.org/debian buster-backports main contrib non-free' | sudo tee -a /etc/apt/sources.list.d/debian-backports.list
-            apt-get update -y --allow-unauthenticated
-            apt-get upgrade -y --allow-unauthenticated
-            sudo apt install libseccomp2 -t buster-backports
-            apt-get install curl -y
-
-            # Install kubectl binary
-            curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
-            chmod +x ./kubectl
-            mv ./kubectl /usr/local/bin/kubectl
 
             cp /tmp/redis/redis.conf /etc/redis/redis.conf
 
@@ -94,6 +80,8 @@ spec:
           mountPath: /etc/redis/
         - name: config
           mountPath: /tmp/redis/
+      imagePullSecrets:
+      - name: rplace-pull-secret
       containers:
       - name: redis
         imagePullPolicy: IfNotPresent
