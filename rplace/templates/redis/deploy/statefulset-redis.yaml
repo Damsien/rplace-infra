@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: redis
-  namespace: rplace
+  namespace: pixel-war
 spec:
   serviceName: redis
   replicas: 1
@@ -54,12 +54,12 @@ spec:
 
               if [ "$(hostname)" = "redis-0" ]; then
                 echo "this is redis-0, not updating config..."
-                kubectl label pods $(hostname) node=master -n rplace
+                kubectl label pods $(hostname) node=master -n pixel-war
               else
                 echo "updating redis.conf..."
                 echo "" >> /etc/redis/redis.conf
                 echo "replicaof $MASTER_FDQN 6379" >> /etc/redis/redis.conf
-                kubectl label pods $(hostname) node=slave -n rplace
+                kubectl label pods $(hostname) node=slave -n pixel-war
               fi
             else
               echo "sentinel found, finding master"
@@ -67,13 +67,13 @@ spec:
               echo "master found : $MASTER, updating redis.conf"
               echo "" >> /etc/redis/redis.conf
               echo "slaveof $MASTER 6379" >> /etc/redis/redis.conf
-              kubectl label pods $(hostname) node=slave -n rplace
+              kubectl label pods $(hostname) node=slave -n pixel-war
               masterName=$(kubectl get pods -o custom-columns=:metadata.name --no-headers=true --field-selector status.podIP=${MASTER})
               if [ "$masterName" == "" ]; then
                 arrIN=(${MASTER//./ })
                 masterName=${arrIN[0]}
               fi
-              kubectl label --overwrite pods $masterName node=master -n rplace
+              kubectl label --overwrite pods $masterName node=master -n pixel-war
             fi
         volumeMounts:
         - name: redis-config

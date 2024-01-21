@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: rplace-backend
-  namespace: rplace
+  namespace: pixel-war
 spec:
   type: ClusterIP
   selector:
