@@ -3,7 +3,6 @@ kind: Ingress
 metadata:
   name: http-rplace
   annotations:
-  namespace: pixel-war
     cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   rules:
