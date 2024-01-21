@@ -24,7 +24,7 @@ spec:
         image: harbor.k8s.inpt.fr/rplace/admin:v1.0
         imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: 3000
+        - containerPort: 5173
         env:
         - name: PUBLIC_URL_API
           value: "{{ .Values.admin.PUBLIC_URL_API }}"
