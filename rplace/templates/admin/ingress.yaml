@@ -19,4 +19,4 @@ spec:
   tls:
   - hosts:
       - admin.place.k8s.inpt.fr
-    secretName: rplace-tls
+    secretName: rplace-tls-dns
