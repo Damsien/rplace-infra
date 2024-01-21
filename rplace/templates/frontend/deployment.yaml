@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: rplace-frontend
-  namespace: pixel-war
   labels:
     app: frontend
 spec:

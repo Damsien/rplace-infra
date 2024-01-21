@@ -2,7 +2,6 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: modify-pods
-  namespace: pixel-war
 rules:
   - apiGroups: ["", "discovery.k8s.io", "apps"]
     resources:

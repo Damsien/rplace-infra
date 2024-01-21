@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: rplace-cronjob
-  namespace: pixel-war
   labels:
     app: cronjob
 spec:
