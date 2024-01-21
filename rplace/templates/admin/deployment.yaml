@@ -31,6 +31,6 @@ spec:
         - name: ORIGIN
           value: "{{ .Values.admin.ORIGIN }}"
         - name: PORT
-          value: 5173
+          value: "5173"
       imagePullSecrets:
       - name: rplace-pull-secret
