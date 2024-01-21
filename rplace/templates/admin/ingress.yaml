@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: http-admin-pixel-war
+  namespace: rplace
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod-dns
+spec:
+  rules:
+  - host: admin.place.k8s.inpt.fr
+    http:
+      paths:
+      - path: /api/
+        pathType: Prefix
+        backend:
+          service:
+            name: rplace-admin
+            port:
+              number: 8080
+  tls:
+  - hosts:
+      - admin.place.k8s.inpt.fr
+    secretName: rplace-tls
