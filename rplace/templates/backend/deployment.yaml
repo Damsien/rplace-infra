@@ -47,9 +47,9 @@ spec:
         - name: ROLE_ADMIN
           value: "{{ .Values.backend.ROLE_ADMIN }}"
         - name: LOCAL_PSCOPES
-          value: "{{ .Values.backend.LOCAL_PSCOPE }}"
+          value: "{{ .Values.backend.LOCAL_PSCOPES }}"
         - name: GLOBAL_PSCOPES
-          value: "{{ .Values.backend.GLOBAL_PSCOPE }}"
+          value: "{{ .Values.backend.GLOBAL_PSCOPES }}"
         - name: CONTACT_TEAM
           value: "{{ .Values.backend.CONTACT_TEAM }}"
         - name: SESSION_TIME
