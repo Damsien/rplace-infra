@@ -37,6 +37,3 @@ cronjob:
   rtr:
     TIMER: 3     # push to mariadb every 60 seconds
 
-admin:
-  PUBLIC_URL_API: https://place.inpt.fr
-  ORIGIN: https://admin.place.inpt.fr

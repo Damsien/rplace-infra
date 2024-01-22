@@ -9,7 +9,7 @@ spec:
   - host: admin.place.k8s.inpt.fr
     http:
       paths:
-      - path: /api/
+      - path: /
         pathType: Prefix
         backend:
           service:
