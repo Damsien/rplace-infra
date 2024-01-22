@@ -38,16 +38,18 @@ spec:
           value: "{{ .Values.mariadb.DATABASE }}"
         - name: MARIADB_DEV
           value: "{{ .Values.mariadb.DEV }}"
-        - name: REDIS_PASSWORD
-          value: "{{ .Values.redis.PASSWORD }}"
+        - name: REDIS_HOST
+          value: "redis://rplace:{{ .Values.redis.PASSWORD }}:6379"
         - name: AT_SECRET
           value: "{{ .Values.backend.AT_SECRET }}"
         - name: RT_SECRET
           value: "{{ .Values.backend.RT_SECRET }}"
         - name: ROLE_ADMIN
           value: "{{ .Values.backend.ROLE_ADMIN }}"
-        - name: LOCAL_PSCOPE
+        - name: LOCAL_PSCOPES
           value: "{{ .Values.backend.LOCAL_PSCOPE }}"
+        - name: GLOBAL_PSCOPES
+          value: "{{ .Values.backend.GLOBAL_PSCOPE }}"
         - name: CONTACT_TEAM
           value: "{{ .Values.backend.CONTACT_TEAM }}"
         - name: SESSION_TIME

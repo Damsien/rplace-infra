@@ -28,11 +28,18 @@ questions:
   default: inp,loc
   required: true
   group: Backend
-- variable: backend.LOCAL_PSCOPE
+- variable: backend.LOCAL_PSCOPES
   label: Local pscopes
   description: Used for user creation (separate by comma ',')
   type: string
   default: loc,custom_local_pscope
+  required: false
+  group: Backend
+- variable: backend.GLOBAL_PSCOPES
+  label: Global pscopes
+  description: Used to scope the schools
+  type: string
+  default: inp,insa
   required: false
   group: Backend
 - variable: backend.ROLE_ADMIN

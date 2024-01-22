@@ -7,7 +7,8 @@ backend:
   RT_SECRET: RT_SECRET
   SESSION_TIME: 12h
   ROLE_ADMIN: inp.ddassieu,pscope.username3
-  LOCAL_PSCOPE: loc,custom_local_pscope
+  LOCAL_PSCOPES: loc,custom_local_pscope
+  GLOBAL_PSCOPES: inp,insa
   CONTACT_TEAM: "{Damien Dassieu}-{https://m.me/Dami1Da},{}-{}"
 
 frontend:
