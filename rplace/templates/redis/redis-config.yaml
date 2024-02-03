@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-additional-config
+data:
+  redis-additional.conf: |
+    # repeat the line below for whichever other modules you need
+    loadmodule /usr/lib/redis/modules/rejson.so
