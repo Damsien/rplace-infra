@@ -27,7 +27,7 @@ spec:
         - containerPort: 5173
         env:
         - name: PUBLIC_URL_API
-          value: "{{ .Values.frontedn.VITE_APP_BACKEND_URL }}"
+          value: "{{ .Values.frontend.VITE_APP_BACKEND_URL }}"
         - name: ORIGIN
           value: "http://app"
         - name: PORT
