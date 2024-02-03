@@ -4,8 +4,8 @@ kind: Redis
 metadata:
   name: redis-standalone
 spec:
-  # redisConfig:
-  #   additionalRedisConfig: redis-external-config
+  redisConfig:
+    additionalRedisConfig: redis-additional-config
   podSecurityContext:
     runAsUser: 1000
     fsGroup: 1000
