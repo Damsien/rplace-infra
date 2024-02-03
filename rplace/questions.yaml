@@ -32,7 +32,7 @@ questions:
   label: Local pscopes
   description: Used for user creation (separate by comma ',')
   type: string
-  default: loc,custom_local_pscope
+  default: loc
   required: false
   group: Backend
 - variable: backend.GLOBAL_PSCOPES
@@ -46,14 +46,14 @@ questions:
   label: Administrators users
   description: Users that will be administrators for the game (separate by comma ',')
   type: string
-  default: inp.ddassieu,pscope.username3
+  default: inp.ddassieu
   required: true
   group: Backend
 - variable: backend.CONTACT_TEAM
   label: Contact team
   description: Each members the users can contact on the 'info' page (at the bottom of the page)
   type: string
-  default: "{Damien Dassieu}-{https://m.me/Dami1Da},{}-{}"
+  default: "{Damien Dassieu}-{https://m.me/Dami1Da}"
   required: true
   group: Backend
 ####    Cronjob     ####
@@ -118,7 +118,7 @@ questions:
   label: Mariadb password
   description: With user 'root'
   type: string
-  default: <maria_password>
+  default: passwd
   required: true
   group: Mariadb
 # - variable: mariadb.PORT
@@ -131,7 +131,7 @@ questions:
   label: Mariadb replication password
   description: The mariadb password used for the replication (only when using clustered mariabd)
   type: string
-  default: <maria_replication_password>
+  default: passwd
   required: true
   group: Mariadb
 ####    Redis   ####
@@ -145,6 +145,6 @@ questions:
 - variable: redis.PASSWORD
   label: Redis password
   type: string
-  default: <redis_password>
+  default: passwd
   required: true
   group: Redis
