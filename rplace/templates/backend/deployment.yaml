@@ -39,7 +39,7 @@ spec:
         - name: MARIADB_DEV
           value: "{{ .Values.mariadb.DEV }}"
         - name: REDIS_HOST
-          value: "redis://rplace:{{ .Values.redis.PASSWORD }}:6379"
+          value: "redis://rplace:{{ .Values.redis.PASSWORD }}@redis:6379"
         - name: AT_SECRET
           value: "{{ .Values.backend.AT_SECRET }}"
         - name: RT_SECRET
