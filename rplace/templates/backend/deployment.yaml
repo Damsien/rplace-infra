@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: harbor.k8s.inpt.fr/rplace/backend:v1.7
+        image: harbor.k8s.inpt.fr/rplace/backend:{{ .Values.backend.imageVersion }}
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3000

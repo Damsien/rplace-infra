@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: admin
-        image: harbor.k8s.inpt.fr/rplace/admin:v1.0
+        image: harbor.k8s.inpt.fr/rplace/admin:{{ .Values.admin.imageVersion }}
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 5173
