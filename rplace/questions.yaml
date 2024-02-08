@@ -56,6 +56,13 @@ questions:
   default: "{Damien Dassieu}-{https://m.me/Dami1Da},{}-{}"
   required: true
   group: Backend
+- variable: backend.imageVersion
+  label: Image version
+  description: The version of the docker image
+  type: string
+  default: "v1.7"
+  required: true
+  group: Backend
 ####    Cronjob     ####
 - variable: cronjob.rtr.TIMER
   label: Redis map update timer
@@ -86,6 +93,13 @@ questions:
 #   default: https://rplace.k8s.inpt.fr
 #   required: true
 #   group: Frontend
+- variable: frontend.imageVersion
+  label: Image version
+  description: The version of the docker image
+  type: string
+  default: "v1.6"
+  required: true
+  group: Frontend
 ####    Mariadb     ####
 - variable: mariadb.CAPACITY
   label: Storage capacity
