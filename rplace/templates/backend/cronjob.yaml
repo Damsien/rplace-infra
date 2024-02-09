@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: rts
-          image: harbor.k8s.inpt.fr/rplace/rts:v3
+          image: harbor.k8s.inpt.fr/rplace/rts:4
           imagePullPolicy: IfNotPresent
           env:
           - name: MARIADB_HOST
@@ -41,7 +41,7 @@ spec:
           - name: TIMER
             value: "{{ .Values.cronjob.rts.TIMER }}"
         - name: rtr
-          image: harbor.k8s.inpt.fr/rplace/rtr:v3
+          image: harbor.k8s.inpt.fr/rplace/rtr:4
           imagePullPolicy: IfNotPresent
           env:
           - name: REDIS_PASSWORD

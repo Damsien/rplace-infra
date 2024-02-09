@@ -1,4 +1,4 @@
-FROM node:current-alpine3.16
+FROM node:18.18.2-alpine3.17
 
 WORKDIR /usr/src/app
 
@@ -8,7 +8,7 @@ COPY . .
 RUN rm -rf ./nodes_modules
 RUN rm -rf ./dist
 
-RUN npm install yarn --legacy-peer-deps
+RUN yarn global add @nestjs/cli
 RUN yarn install
 RUN yarn run build
 
