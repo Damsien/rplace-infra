@@ -10,16 +10,16 @@ backend:
   LOCAL_PSCOPES: loc
   GLOBAL_PSCOPES: inp,insa
   CONTACT_TEAM: "{Damien Dassieu}-{https://m.me/Dami1Da}"
-  imageVersion: v1.7
+  imageVersion: 1.8
 
 frontend:
   VITE_APP_BACKEND_URL: https://place.inpt.fr
   VITE_APP_BACKEND_API_URL: https://place.inpt.fr/api/v1
   VITE_APP_PSCOPES: inp,loc
-  imageVersion: v1.6
+  imageVersion: 1.7
 
 admin:
-  imageVersion: v1.0
+  imageVersion: 1.0
 
 redis:
   # HOST: redis://rplace:<redis_password>@redis:6379
