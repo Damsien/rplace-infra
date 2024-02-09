@@ -60,7 +60,7 @@ questions:
   label: Image version
   description: The version of the docker image
   type: string
-  default: "v1.7"
+  default: "1.8"
   required: true
   group: Backend
 ####    Cronjob     ####
@@ -97,7 +97,7 @@ questions:
   label: Image version
   description: The version of the docker image
   type: string
-  default: "v1.6"
+  default: "1.7"
   required: true
   group: Frontend
 ####    Mariadb     ####
